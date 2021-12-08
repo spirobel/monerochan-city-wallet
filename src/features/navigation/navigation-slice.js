@@ -13,6 +13,6 @@ export const navigationSlice = createSlice({
 });
 export const { navigate } = navigationSlice.actions;
 
-export const selectCurrentPage = state => state.route[state.route.length - 1];
+export const selectCurrentPage = state => state.navigation.route[state.navigation.route.length - 1];
 
 export default navigationSlice.reducer;

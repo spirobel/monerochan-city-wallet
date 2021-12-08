@@ -2,9 +2,10 @@ import React from 'react';
 import createSagaMiddleware from '@redux-saga/core';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import navigationReducer from '../features/navigation-slice'
+import navigationReducer from '../features/navigation/navigation-slice'
 import devToolsEnhancer from 'remote-redux-devtools';
-import * as actionCreators from '../features/navigation-slice'; 
+import * as actionCreators from '../features/navigation/navigation-slice'; 
+import Navigation from '../features/navigation/Navigation';
 const saga = createSagaMiddleware();
 const store = configureStore({
   reducer: {
@@ -18,7 +19,7 @@ const store = configureStore({
 function App() {
   return (
 <Provider store={store}>
-  monerochan  
+  <Navigation/>
 </Provider>
   );
 }
