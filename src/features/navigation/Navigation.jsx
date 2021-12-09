@@ -5,11 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 function Navigation() {
   let currentPage = useSelector(selectCurrentPage)
   const dispatch = useDispatch()
+  let main = <div></div>;
+  switch (currentPage) {
+    case 'root':
+      main = <div>root</div>
+      break;
+    case 'test':
+      main = <div>test</div>
+      break;
+  }
 
   return (
     <div>
-      monerochan <div>{currentPage}</div>
-      <button onClick={() => dispatch(navigate("test"))}>navigate</button>
+      monerochan
+      {main}
+      <button onClick={() => dispatch(navigate("root"))}>root</button>
+      <button onClick={() => dispatch(navigate("test"))}>test</button>
+
     </div>
   );
 }
