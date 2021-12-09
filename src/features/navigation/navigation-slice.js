@@ -7,7 +7,7 @@ export const navigationSlice = createSlice({
     },
     reducers: {
         navigate: (state, action) => {
-            state.route += action.payload;
+            state.route.push(action.payload);
         }
     }
 });

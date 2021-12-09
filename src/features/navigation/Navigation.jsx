@@ -1,6 +1,6 @@
 import React from 'react';
-import {navigate, selectCurrentPage} from './navigation-slice'
-import {  useDispatch, useSelector } from 'react-redux';
+import { navigate, selectCurrentPage } from './navigation-slice'
+import { useDispatch, useSelector } from 'react-redux';
 
 function Navigation() {
   let currentPage = useSelector(selectCurrentPage)
@@ -8,8 +8,8 @@ function Navigation() {
 
   return (
     <div>
-        monerochan  {currentPage}
-        <button onClick={() =>dispatch(navigate("test"))}>navigate</button>
+      monerochan <div>{currentPage}</div>
+      <button onClick={() => dispatch(navigate("test"))}>navigate</button>
     </div>
   );
 }
