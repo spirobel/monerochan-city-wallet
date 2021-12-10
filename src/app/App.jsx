@@ -4,9 +4,10 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import navigationReducer from '../features/navigation/navigation-slice'
 import devToolsEnhancer from 'remote-redux-devtools';
-import {navigate}  from '../features/navigation/navigation-slice'; 
+import { navigate } from '../features/navigation/navigation-slice';
 import Navigation from '../features/navigation/Navigation';
-const actionCreators = {navigate}
+import './App.css';
+const actionCreators = { navigate }
 const saga = createSagaMiddleware();
 const store = configureStore({
   reducer: {
@@ -14,14 +15,14 @@ const store = configureStore({
   },
   middleware: [saga],
   devTools: false,
-  enhancers: [devToolsEnhancer({ actionCreators,trace: true, traceLimit: 25 , realtime: true, port: 8000 })],
+  enhancers: [devToolsEnhancer({ actionCreators, trace: true, traceLimit: 25, realtime: true, port: 8000 })],
 })
 
 function App() {
   return (
-<Provider store={store}>
-  <Navigation/>
-</Provider>
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
   );
 }
 
