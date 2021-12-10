@@ -1212,6 +1212,37 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.6.tgz#d5e0706cf8c6acd8c6032f8d54070af261bbbb2f"
   integrity sha512-ws57AidsDvREKrZKYffXddNkyaF14iHNHm8VQnZH6t99E8gczjNN0GpvcGny0imC80yQ0tHz1xVUKk/KFQSUyA==
 
+"@dnd-kit/accessibility@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/accessibility/-/accessibility-3.0.0.tgz#b56e3750414fd907b7d6972b3116aa8f96d07fde"
+  integrity sha512-QwaQ1IJHQHMMuAGOOYHQSx7h7vMZPfO97aDts8t5N/MY7n2QTDSnW+kF7uRQ1tVBkr6vJ+BqHWG5dlgGvwVjow==
+  dependencies:
+    tslib "^2.0.0"
+
+"@dnd-kit/core@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-4.0.3.tgz#49abe3c9b481b6e07909df1781e88b20f3dd25b0"
+  integrity sha512-uT1uHZxKx3iEkupmLfknMIvbykMJSetoXXmra6sGGvtWy+OMKrWm3axH2c90+JC/q6qaeKs2znd3Qs8GLnCa5Q==
+  dependencies:
+    "@dnd-kit/accessibility" "^3.0.0"
+    "@dnd-kit/utilities" "^3.0.1"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-5.1.0.tgz#f30ec12c95ca5aa90e2e4d9ef3dbe16b3eb26d69"
+  integrity sha512-CPyiUHbTrSYzhddfgdeoX0ERg/dEyVKIWx9+4O6uqpoppo84SXCBHVFiFBRVpQ9wtpsXs7prtUAnAUTcvFQTZg==
+  dependencies:
+    "@dnd-kit/utilities" "^3.0.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/utilities@^3.0.0", "@dnd-kit/utilities@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/utilities/-/utilities-3.0.1.tgz#c9a5b3e6068cd371001c451d622fc13df0ab05c9"
+  integrity sha512-lAfK9lS5H9I1B/t3iVkQa85Cn+nPRJh3ksPUxAnoxPDqvwcW4tfV0wP++O/dRCP30T76+YF+/XJo7hyOEkzHig==
+  dependencies:
+    tslib "^2.0.0"
+
 "@electron/get@^1.13.0":
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.13.1.tgz#42a0aa62fd1189638bd966e23effaebb16108368"
@@ -8433,7 +8464,7 @@ tsconfig-paths@^3.11.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@^2.0.3, tslib@^2.1.0, tslib@~2.3.0:
+tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@~2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
