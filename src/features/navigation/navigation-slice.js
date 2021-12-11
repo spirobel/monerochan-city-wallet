@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const navigationSlice = createSlice({
     name: 'navigation',
     initialState: {
-        route: ["root"]
+        route: ["home"]
     },
     reducers: {
         navigate: (state, action) => {

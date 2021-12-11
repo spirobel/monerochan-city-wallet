@@ -24,7 +24,7 @@ export function Clubcard(props) {
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
             <Card
-                style={{ width: 300 }}
+                style={{ width: 150 }}
                 cover={
                     <img
                         alt="example"

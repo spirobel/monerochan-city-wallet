@@ -14,7 +14,8 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { Clubcard } from './Clubcard';
-
+import styles from './Clubcards.module.css';
+import classNames from 'classnames';
 
 export function Clubcards() {
     const [items, setItems] = useState(['1', '2', '3', '4', '5', '6', '7', '8']);
@@ -35,7 +36,9 @@ export function Clubcards() {
                 items={items}
                 strategy={rectSortingStrategy}
             >
-                {items.map(id => <Clubcard key={id} id={id} />)}
+                <div className={styles.Clubcards}>
+                    {items.map(id => <Clubcard key={id} id={id} />)}
+                </div>
             </SortableContext>
         </DndContext>
     );
