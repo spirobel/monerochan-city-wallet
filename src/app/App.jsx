@@ -6,7 +6,7 @@ import navigationReducer from '../features/navigation/navigation-slice'
 import devToolsEnhancer from 'remote-redux-devtools';
 import { navigate } from '../features/navigation/navigation-slice';
 import Navigation from '../features/navigation/Navigation';
-import './App.css';
+import './App.less';
 const actionCreators = { navigate }
 const saga = createSagaMiddleware();
 const store = configureStore({
