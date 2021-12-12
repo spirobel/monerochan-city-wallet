@@ -14,7 +14,6 @@ export function Clubcard(props) {
     const {
         attributes,
         listeners,
-        isDragging,
         setNodeRef,
         transform,
         transition,
@@ -26,11 +25,9 @@ export function Clubcard(props) {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={classNames(styles.Clubcard,
-            isDragging && styles.active)}>
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners} >
             <Card
-                className={classNames(styles.Clubcard,
-                    isDragging && styles.active)}
+                className={classNames(styles.Clubcard)}
                 style={{ width: 150 }}
                 cover={
                     <img
