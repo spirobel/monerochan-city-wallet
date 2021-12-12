@@ -3,6 +3,9 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card, Avatar } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import styles from './Clubcards.module.scss'
+import classNames from 'classnames';
+
 
 const { Meta } = Card;
 
@@ -11,6 +14,7 @@ export function Clubcard(props) {
     const {
         attributes,
         listeners,
+        isDragging,
         setNodeRef,
         transform,
         transition,
@@ -22,8 +26,11 @@ export function Clubcard(props) {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={classNames(styles.Clubcard,
+            isDragging && styles.active)}>
             <Card
+                className={classNames(styles.Clubcard,
+                    isDragging && styles.active)}
                 style={{ width: 150 }}
                 cover={
                     <img

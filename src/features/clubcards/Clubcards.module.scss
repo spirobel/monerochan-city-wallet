@@ -6,3 +6,9 @@
     grid-template-columns: repeat(auto-fill, 150px);
   
   }
+.Clubcard {
+  &.active{
+    background-image: none !important;
+    background-color: red;
+  }
+}

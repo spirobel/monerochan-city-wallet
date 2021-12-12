@@ -14,8 +14,7 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { Clubcard } from './Clubcard';
-import styles from './Clubcards.module.css';
-import classNames from 'classnames';
+import styles from './Clubcards.module.scss';
 
 export function Clubcards() {
     const [items, setItems] = useState(['1', '2', '3', '4', '5', '6', '7', '8']);
