@@ -1,2 +1,16 @@
 console.log('This is the background page.');
 console.log('Put the background scripts here.');
+const monerojs = require("monero-javascript");
+monero_wallet().then(x => console.log(x))
+
+async function monero_wallet() {
+    let wallet = await monerojs.createWalletFull({
+        networkType: 'stagenet',
+        primaryAddress: "55Py9fSwyEeQX1CydtFfPk96uHEFxSxvD9AYBy7dwnYt9cXqKDjix9rS9AWZ5GnH4B1Z7yHr3B2UH2updNw5ZNJEEnv87H1",
+        privateViewKey: "1195868d30373aa9d92c1a21514de97670bcd360c209a409ea3234174892770e",
+        password: 'password',
+        restoreHeight: 957038,
+    });
+    await wallet.setDaemonConnection("http://stagenet.xmr-tw.org:38081");
+    return wallet
+}

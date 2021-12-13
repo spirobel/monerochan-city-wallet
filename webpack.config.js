@@ -10,6 +10,7 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 var alias = {
   'react-dom': '@hot-loader/react-dom',
+  "fs": "html5-fs"
 };
 
 // load the secrets
@@ -121,8 +122,38 @@ var options = {
     extensions: fileExtensions
       .map((extension) => '.' + extension)
       .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
+    fallback: { // browser polyfills
+      assert: require.resolve('assert'),
+      //buffer: require.resolve('buffer'),
+      //console: require.resolve('console-browserify'),
+      //constants: require.resolve('constants-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      //domain: require.resolve('domain-browser'),
+      //events: require.resolve('events'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      path: require.resolve('path-browserify'),
+      //punycode: require.resolve('punycode'),
+      //process: require.resolve('process/browser'),
+      querystring: require.resolve('querystring-es3'),
+      stream: require.resolve('stream-browserify'),
+      //string_decoder: require.resolve('string_decoder'),
+      //sys: require.resolve('util'),
+      //timers: require.resolve('timers-browserify'),
+      //tty: require.resolve('tty-browserify'),
+      url: require.resolve('url'),
+      util: require.resolve('util'),
+      //vm: require.resolve('vm-browserify'),
+      zlib: require.resolve('browserify-zlib')
+    },
   },
+  externals: ['worker_threads', 'ws', 'perf_hooks', 'child_process'], // exclude nodejs
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer']
+    }),
     new webpack.ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.EnvironmentPlugin(['NODE_ENV']),
@@ -142,6 +173,24 @@ var options = {
               })
             );
           },
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/monero-javascript/dist/monero_web_worker.js',
+          to: path.join(__dirname, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/monero-javascript/dist/monero_wallet_full.wasm',
+          to: path.join(__dirname, 'build'),
+          force: true,
         },
       ],
     }),
