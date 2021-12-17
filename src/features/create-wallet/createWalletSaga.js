@@ -9,7 +9,7 @@ function* workCreateWallet(action) {
     }))
     //trigger event in background page #https://redux-saga.js.org/docs/basics/ErrorHandling/ 
     //https://redux-saga.js.org/docs/recipes/
-    yield call(sendMessage(CREATE_WALLET, { storagekey: action.payload.name }))
+    yield call(() => sendMessage(CREATE_WALLET, { storagekey: action.payload.name }))
 }
 
 function* createWalletSaga() {

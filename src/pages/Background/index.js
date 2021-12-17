@@ -2,8 +2,6 @@ console.log('This is the background page.');
 console.log('Put the background scripts here.');
 const monerojs = require("monero-javascript");
 const { CREATE_WALLET } = require("../../features/create-wallet/createWalletSaga");
-CREATE_WALLET
-
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
@@ -11,7 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         chrome.storage.local.get([message.content.storagekey], function (result) {
             sendResponse({ result })
-            console.log('Value currently is ' + result.key, result);
+            console.log('Value currently is ', result);
         });
     }
 
