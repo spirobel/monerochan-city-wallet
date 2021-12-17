@@ -1,7 +1,30 @@
 console.log('This is the background page.');
 console.log('Put the background scripts here.');
 const monerojs = require("monero-javascript");
-monero_wallet().then(x => console.log(x))
+const { CREATE_WALLET } = require("../../features/create-wallet/createWalletSaga");
+CREATE_WALLET
+
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+
+    if (message.action == CREATE_WALLET) {
+
+        chrome.storage.local.get([message.content.storagekey], function (result) {
+            sendResponse({ result })
+            console.log('Value currently is ' + result.key, result);
+        });
+    }
+
+    // return true from the event listener to indicate you wish to send a response asynchronously
+    // (this will keep the message channel open to the other end until sendResponse is called).
+    //or return a promise: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Runtime/onMessage
+    // example in the link
+    return true;
+});
+
+
+
+//monero_wallet().then(x => console.log(x))
 
 async function monero_wallet() {
     let wallet = await monerojs.createWalletFull({
