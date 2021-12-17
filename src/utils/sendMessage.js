@@ -24,7 +24,7 @@ export function sendMessage(action, content) {
     });
 }
 // waiting for tasks from background
-https://developer.chrome.com/docs/extensions/reference/runtime/#event-onMessage
+//https://developer.chrome.com/docs/extensions/reference/runtime/#event-onMessage
 /**
  * Promise wrapper for chrome.runtime.onMessage
  * @param message
