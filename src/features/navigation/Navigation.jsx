@@ -3,8 +3,10 @@ import { navigate, selectCurrentPage } from './navigation-slice'
 import { useDispatch, useSelector } from 'react-redux';
 import Home from '../home/Home';
 import CreateWallet from '../create-wallet/CreateWallet'
-import { Button } from 'antd';
+import { Button, Layout, Space } from 'antd';
 
+
+const { Header, Content } = Layout;
 
 function Navigation() {
   let currentPage = useSelector(selectCurrentPage)
@@ -23,17 +25,22 @@ function Navigation() {
   }
 
   return (
-    <div>
-      <h1>monerochan</h1>
-      <Button block size="large" type="primary" onClick={() => dispatch(navigate("create-wallet"))}>
-        create wallet
-      </Button>
-      <button onClick={() => dispatch(navigate("home"))}>home</button>
-      <button onClick={() => dispatch(navigate("test"))}>test</button>
-      {main}
-
-
-    </div>
+    <Layout>
+      <Header>
+        <Space>
+          <Button type="primary" onClick={() => dispatch(navigate("create-wallet"))}>
+            create wallet
+          </Button>
+          <Button type="primary" onClick={() => dispatch(navigate("home"))}>
+            home
+          </Button>
+          <Button type="primary" onClick={() => dispatch(navigate("test"))}>
+            test
+          </Button>
+        </Space>
+      </Header>
+      <Content>{main}</Content>
+    </Layout>
   );
 }
 
