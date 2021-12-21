@@ -3,9 +3,10 @@ import { navigate, selectCurrentPage } from './navigation-slice'
 import { useDispatch, useSelector } from 'react-redux';
 import Home from '../home/Home';
 import CreateWallet from '../create-wallet/CreateWallet'
-import { Button, Layout, Space } from 'antd';
-
-
+import { Button, Layout, Space, Menu, Dropdown } from 'antd';
+import MoneroLogo from './logo.jsx'
+import Icon from '@ant-design/icons';
+const Monero = props => <Icon component={MoneroLogo} {...props} />;
 const { Header, Content } = Layout;
 
 function Navigation() {
@@ -28,15 +29,17 @@ function Navigation() {
     <Layout>
       <Header>
         <Space>
-          <Button type="primary" onClick={() => dispatch(navigate("create-wallet"))}>
-            create wallet
+          <Button onClick={() => dispatch(navigate("create-wallet"))}>
+            send
           </Button>
-          <Button type="primary" onClick={() => dispatch(navigate("home"))}>
-            home
+          <Button onClick={() => dispatch(navigate("home"))}>
+            1.19 <Monero />
+
           </Button>
-          <Button type="primary" onClick={() => dispatch(navigate("test"))}>
-            test
+          <Button onClick={() => dispatch(navigate("test"))}>
+            receive
           </Button>
+
         </Space>
       </Header>
       <Content>{main}</Content>
