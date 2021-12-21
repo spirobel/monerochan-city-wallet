@@ -5,7 +5,7 @@ import Home from '../home/Home';
 import CreateWallet from '../create-wallet/CreateWallet'
 import { Button, Layout, Space, Menu, Dropdown } from 'antd';
 import MoneroLogo from './logo.jsx'
-import Icon from '@ant-design/icons';
+import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
 const Monero = props => <Icon component={MoneroLogo} {...props} />;
 const { Header, Content } = Layout;
 
@@ -30,16 +30,18 @@ function Navigation() {
       <Header>
         <Space>
           <Button onClick={() => dispatch(navigate("create-wallet"))}>
-            send
+            <LeftCircleOutlined />send
           </Button>
-          <Button onClick={() => dispatch(navigate("home"))}>
+          <Button shape="round" onClick={() => dispatch(navigate("home"))}>
             1.19 <Monero />
 
           </Button>
           <Button onClick={() => dispatch(navigate("test"))}>
-            receive
+            receive<LeftCircleOutlined />
           </Button>
-
+          <Button onClick={() => dispatch(navigate("test"))}>
+            <MenuOutlined />
+          </Button>
         </Space>
       </Header>
       <Content>{main}</Content>
