@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { navigate, selectCurrentPage } from '../../navigation/navigation-slice'
 import { Card, Tooltip } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
 import styles from './WalletCard.module.scss'
@@ -9,6 +11,7 @@ const { Meta } = Card;
 
 
 export function WalletCard(props) {
+    const dispatch = useDispatch()
 
     return (
         <Card
@@ -19,7 +22,7 @@ export function WalletCard(props) {
                     <SettingOutlined key="setting" />
                 </Tooltip>,
                 <Tooltip title="create new wallet">
-                    <EditOutlined key="edit" />
+                    <EditOutlined key="edit" onClick={() => dispatch(navigate("create-wallet"))} />
                 </Tooltip>,
                 <Tooltip title="switch wallet">
                     <EllipsisOutlined key="ellipsis" />
