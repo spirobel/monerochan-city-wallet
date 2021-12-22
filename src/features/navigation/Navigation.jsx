@@ -2,8 +2,9 @@ import React from 'react';
 import { navigate, selectCurrentPage } from './navigation-slice'
 import { useDispatch, useSelector } from 'react-redux';
 import Home from '../home/Home';
+import Menu from '../menu/Menu';
 import CreateWallet from '../create-wallet/CreateWallet'
-import { Button, Layout, Space, Menu, Dropdown } from 'antd';
+import { Button, Layout, Space, } from 'antd';
 import MoneroLogo from './logo.jsx'
 import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
 const Monero = props => <Icon component={MoneroLogo} {...props} />;
@@ -23,6 +24,9 @@ function Navigation() {
     case 'create-wallet':
       main = <CreateWallet />
       break;
+    case 'menu':
+      main = <Menu />
+      break;
   }
 
   return (
@@ -39,7 +43,7 @@ function Navigation() {
           <Button onClick={() => dispatch(navigate("test"))}>
             receive<LeftCircleOutlined />
           </Button>
-          <Button onClick={() => dispatch(navigate("test"))}>
+          <Button onClick={() => dispatch(navigate("menu"))}>
             <MenuOutlined />
           </Button>
         </Space>
