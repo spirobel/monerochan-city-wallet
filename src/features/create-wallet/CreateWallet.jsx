@@ -26,7 +26,6 @@ export default function CreateWallet() {
     };
     return (
         <div>
-            jsdfjksdfsf
             <Form
                 name="save-wallet"
 
