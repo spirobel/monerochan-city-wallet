@@ -27,14 +27,6 @@ function* rootSaga() {
 }
 
 const doCreateStore = () => {
-    let preloadedState = {}
-    if (module.hot) {
-        module.hot.dispose((data) => {
-            // Clean up and pass data to the updated module...
-            data = store.getState();
-        });
-        preloadedState = module.hot.data;
-    }
     //https://stackoverflow.com/questions/37325667/does-es6-module-importing-execute-the-code-inside-the-imported-file
     const actionCreators = { navigate }
     const saga = createSagaMiddleware();
@@ -44,7 +36,6 @@ const doCreateStore = () => {
         },
         middleware: [saga],
         devTools: false,
-        preloadedState,
         enhancers: [devToolsEnhancer({ actionCreators, trace: true, traceLimit: 25, realtime: true, port: 8000 })],
     })
     saga.run(rootSaga)
