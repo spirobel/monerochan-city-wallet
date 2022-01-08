@@ -20,9 +20,12 @@ export default function CreateWallet() {
     //mnemonic(optional), password: required, advanced: {restore from private view+spendkey, primary address},networkType,serverUri, restoreHeight)
     const onFinish = (values) => {
         console.log('Success:', values);
+        //TODO check that wallet does not already exist
         dispatch(saveWallet("wallet/" + draftWallet.name, draftWallet))
         setdraftWallet(initalValues)
         form.resetFields();
+        //TODO: change current wallet to the one just saved
+        dispatch(navigate("menu"))
     };
     const onValuesChange = (changedValues, allValues) => {
         setdraftWallet(allValues)
