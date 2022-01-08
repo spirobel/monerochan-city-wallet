@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useChromeStorageLocal } from 'use-chrome-storage';
 import { Form, Input, Button, Checkbox, Radio } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,20 +7,26 @@ import { LeftCircleOutlined } from '@ant-design/icons';
 import { navigate } from '../navigation/navigation-slice'
 
 export default function CreateWallet() {
-    // if you need to state be preserved in `chrome.storage.sync` use useChromeStorageSync
-    const [value, setValue, isPersistent, error] = useChromeStorageLocal('counterLocal', 0);
+    const initalValues = {
+        name: "monerochans stash",
+        networkType: "stagenet", //switch to mainnet after leaving alpha
+        password: "password",
+        serverUri: "http://stagenet.xmr-tw.org:38081" //switch to mainnet after leaving alpha
+    }
+    const [form] = Form.useForm();
+    const [draftWallet, setdraftWallet] = useChromeStorageLocal('wallet-draft', initalValues);
+
     const dispatch = useDispatch()
     //mnemonic(optional), password: required, advanced: {restore from private view+spendkey, primary address},networkType,serverUri, restoreHeight)
     const onFinish = (values) => {
         console.log('Success:', values);
-    };
-    const onFieldsChange = (changedFields, allFields) => {
-        console.log('changedFields:', changedFields, 'allFields:', allFields);
+        dispatch(saveWallet("wallet/" + draftWallet.name, draftWallet))
+        setdraftWallet(initalValues)
+        form.resetFields();
     };
     const onValuesChange = (changedValues, allValues) => {
-        console.log('changedValues:', changedValues, 'allValues:', allValues);
+        setdraftWallet(allValues)
     };
-
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -28,15 +34,9 @@ export default function CreateWallet() {
         <div>
             <Form
                 name="save-wallet"
-
-                initialValues={{
-                    name: "monerochans stash",
-                    networkType: "stagenet", //switch to mainnet after leaving alpha
-                    password: "password",
-                    serverUri: "http://stagenet.xmr-tw.org:38081" //switch to mainnet after leaving alpha
-                }}
+                form={form}
+                initialValues={draftWallet}
                 onFinish={onFinish}
-                onFieldsChange={onFieldsChange}
                 onValuesChange={onValuesChange}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
@@ -92,19 +92,6 @@ export default function CreateWallet() {
                     </Button>
                 </Form.Item>
             </Form>
-            <button
-                onClick={() => {
-                    setValue(prev => (prev + 1));
-                }}
-            >
-                Increment in Local Storage
-            </button>
-            <div>Value: {value}</div>
-            <div>Persisted in chrome.storage.local: {isPersistent.toString()}</div>
-            <div>Error: {error}</div>
-            <Button block size="default" type="primary" onClick={() => dispatch(saveWallet("name-of-wallet", { value }))}>
-                save wallet
-            </Button>
         </div>
     );
 };
