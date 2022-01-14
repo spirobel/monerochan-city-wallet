@@ -8,7 +8,8 @@
     "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
   },
   "scripts": {
-    "redux-devtools": "redux-devtools --open=electron --hostname=localhost --port=8000",
+    "bd": "redux-devtools --open=electron --hostname=localhost --port=8001",
+    "fd": "redux-devtools --open=electron --hostname=localhost --port=8000",
     "build": "node utils/build.js",
     "start": "node utils/webserver.js",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
