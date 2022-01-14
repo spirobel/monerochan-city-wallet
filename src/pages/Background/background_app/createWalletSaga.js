@@ -1,15 +1,13 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { sendMessage } from '../../utils/sendMessage'
 
 function* workCreateWallet(action) {
     //chrome.localstore set action.payload
+    //https://developer.chrome.com/docs/extensions/reference/storage/
     yield call(() => chrome.storage.local.set({
         [action.payload.name]: action.payload.content,
-
+        [ACTIVE_WALLET]: [action.payload.name]
     }))
-    //trigger event in background page #https://redux-saga.js.org/docs/basics/ErrorHandling/ 
-    //https://redux-saga.js.org/docs/recipes/
-    yield call(() => sendMessage(CREATE_WALLET, { storagekey: action.payload.name }))
+    //TODO turn on active wallet
 }
 
 function* createWalletSaga() {
@@ -27,5 +25,6 @@ export function saveWallet(name, content) {
 }
 
 export const CREATE_WALLET = 'wallet/createWallet';
+export const ACTIVE_WALLET = 'monerochan/ACTIVE_WALLET';
 
 export default createWalletSaga;
