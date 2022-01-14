@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useChromeStorageLocal } from 'use-chrome-storage';
 import { Form, Input, Button, Checkbox, Radio } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveWallet } from './createWalletSaga';
+import { dispatchBackground } from '../../utils/dispatchBackground';
+import { saveWallet } from '../../pages/Background/background_app/createWalletSaga';
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { navigate } from '../navigation/navigation-slice'
 
@@ -21,7 +22,7 @@ export default function CreateWallet() {
     const onFinish = (values) => {
         console.log('Success:', values);
         //TODO check that wallet does not already exist
-        dispatch(saveWallet("wallet/" + draftWallet.name, draftWallet))
+        dispatchBackground(saveWallet("wallet/" + draftWallet.name, draftWallet))
         setdraftWallet(initalValues)
         form.resetFields();
         //TODO: change current wallet to the one just saved
