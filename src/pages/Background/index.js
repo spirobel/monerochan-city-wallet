@@ -1,6 +1,5 @@
 console.log('This is the background page.');
 console.log('Put the background scripts here.');
-const monerojs = require("monero-javascript");
 import doCreateStore from "./background_app/background_store";
 //initialize sagas that handle the behavior of the backgroundpage. 
 const store = doCreateStore()
