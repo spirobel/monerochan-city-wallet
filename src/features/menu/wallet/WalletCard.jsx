@@ -18,11 +18,11 @@ export function WalletCard(props) {
             className={classNames(styles.WalletCard)}
 
             actions={[
-                <Tooltip title="edit wallet">
-                    <SettingOutlined key="setting" />
+                <Tooltip title="sign message with wallet">
+                    <EditOutlined key="setting" />
                 </Tooltip>,
                 <Tooltip title="create new wallet">
-                    <EditOutlined key="edit" onClick={() => dispatch(navigate("create-wallet"))} />
+                    <SettingOutlined key="edit" onClick={() => dispatch(navigate("create-wallet"))} />
                 </Tooltip>,
                 <Tooltip title="switch wallet">
                     <EllipsisOutlined key="ellipsis" />
