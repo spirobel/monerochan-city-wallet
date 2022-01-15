@@ -10,7 +10,6 @@ const doCreateStore = () => {
         reducer: {
             navigation: navigationReducer
         },
-        middleware: [saga],
         devTools: false,
         enhancers: [devToolsEnhancer({ actionCreators, trace: true, traceLimit: 25, realtime: true, port: 8000 })],
     })
