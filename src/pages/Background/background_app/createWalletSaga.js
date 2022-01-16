@@ -1,10 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { getAllWalletKeys } from "./moneroWalletUtils"
+import { getAllWalletKeys, create_monero_wallet } from "./moneroWalletUtils"
 
 function* workCreateWallet(action) {
     //chrome.localstore set action.payload
     //https://developer.chrome.com/docs/extensions/reference/storage/
-    yield call(() => getAllWalletKeys.then(function (awk) {
+    yield call(() => getAllWalletKeys().then(function (awk) {
         if (awk) {
             awk.push(action.payload.name)
         }
@@ -19,8 +19,15 @@ function* workCreateWallet(action) {
         })
 
 
+    }).then(() => {
+        if (Window.wallets) {
+            Window.wallets.push(create_monero_wallet(action.payload.content))
+        }
+        else {
+            Window.wallets = [create_monero_wallet(action.payload.content)]
+        }
+
     }))
-    //TODO turn on active wallet instead of waiting for janitorSaga to do it.
 }
 
 function* createWalletSaga() {
