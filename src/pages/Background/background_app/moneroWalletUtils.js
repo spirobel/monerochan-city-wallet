@@ -1,4 +1,4 @@
-import { ACTIVE_WALLET } from "./createWalletSaga";
+import { ACTIVE_WALLET, ALL_WALLET_KEYS } from "./createWalletSaga";
 const monerojs = require("monero-javascript");
 
 
@@ -25,6 +25,14 @@ export function getCurrentActiveWalletName() {
     return new Promise((resolve) => {
         chrome.storage.local.get([ACTIVE_WALLET], function (aw) {
             resolve(aw);
+        })
+    })
+}
+
+export function getAllWalletKeys() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get([ALL_WALLET_KEYS], function (awk) {
+            resolve(awk);
         })
     })
 }
