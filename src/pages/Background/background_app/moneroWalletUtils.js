@@ -7,6 +7,11 @@ export async function create_monero_wallet(wallet_config) {
     return wallet
 }
 
+export async function open_monero_wallet(wallet_config) {
+    let wallet = await monerojs.openWalletFull(wallet_config);
+    return wallet
+}
+
 export function getCurrentActiveWallet() {
 
     return new Promise((resolve) => {
