@@ -4,23 +4,22 @@ import { getAllWalletKeys, create_monero_wallet } from "./moneroWalletUtils"
 function* workCreateWallet(action) {
     //chrome.localstore set action.payload
     //https://developer.chrome.com/docs/extensions/reference/storage/
-    yield call(() => getAllWalletKeys().then(function (awk) {
-        if (awk) {
+    yield call(() => getAllWalletKeys().then((awk) => {
+        if (Array.isArray(awk)) {
             awk.push(action.payload.name)
         }
         else {
             awk = [action.payload.name]
         }
-
         chrome.storage.local.set({
             [action.payload.name]: action.payload.content,
-            [ACTIVE_WALLET]: [action.payload.name],
+            [ACTIVE_WALLET]: action.payload.name,
             [ALL_WALLET_KEYS]: awk
         })
 
 
     }).then(() => {
-        if (Window.wallets) {
+        if (Array.isArray(Window.wallets)) {
             Window.wallets.push(create_monero_wallet(action.payload.content))
         }
         else {
