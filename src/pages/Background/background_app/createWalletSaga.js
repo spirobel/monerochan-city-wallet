@@ -19,11 +19,15 @@ function* workCreateWallet(action) {
 
 
     }).then(() => {
+        let monero_wallet = create_monero_wallet(action.payload.content)
+        monero_wallet.then((x) => {
+            console.log("data", x.getData())
+        })
         if (Array.isArray(Window.wallets)) {
-            Window.wallets.push(create_monero_wallet(action.payload.content))
+            Window.wallets.push(monero_wallet)
         }
         else {
-            Window.wallets = [create_monero_wallet(action.payload.content)]
+            Window.wallets = [monero_wallet]
         }
 
     }))
