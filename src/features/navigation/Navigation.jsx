@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Home from '../home/Home';
 import Menu from '../menu/Menu';
 import CreateWallet from '../create-wallet/CreateWallet'
+import SwitchWallet from '../switch-wallet/SwitchWallet'
 import { Button, Layout, Space, } from 'antd';
 import MoneroLogo from './logo.jsx'
 import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
@@ -23,6 +24,9 @@ function Navigation() {
       break;
     case 'create-wallet':
       main = <CreateWallet />
+      break;
+    case 'switch-wallet':
+      main = <SwitchWallet />
       break;
     case 'menu':
       main = <Menu />

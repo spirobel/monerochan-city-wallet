@@ -25,7 +25,7 @@ export function WalletCard(props) {
                     <SettingOutlined key="edit" onClick={() => dispatch(navigate("create-wallet"))} />
                 </Tooltip>,
                 <Tooltip title="switch wallet">
-                    <EllipsisOutlined key="ellipsis" />
+                    <EllipsisOutlined key="ellipsis" onClick={() => dispatch(navigate("switch-wallet"))} />
                 </Tooltip>,
             ]}
         >
