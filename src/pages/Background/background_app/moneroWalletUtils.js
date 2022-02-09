@@ -44,11 +44,7 @@ export function getCurrentActiveWalletName() {
 }
 
 export function getAllWalletKeys() {
-    return new Promise((resolve) => {
-        chrome.storage.local.get(ALL_WALLET_KEYS, function (awk) {
-            resolve(awk[ALL_WALLET_KEYS]);
-        })
-    })
+    return storage.get(ALL_WALLET_KEYS)
 }
 
 export function setAllWalletKeys(awk, name, content) {
