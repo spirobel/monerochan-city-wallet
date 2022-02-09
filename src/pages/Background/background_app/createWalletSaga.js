@@ -1,36 +1,24 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { getAllWalletKeys, create_monero_wallet } from "./moneroWalletUtils"
+import { getAllWalletKeys, create_monero_wallet, setAllWalletKeys } from "./moneroWalletUtils"
 
 function* workCreateWallet(action) {
     //chrome.localstore set action.payload
     //https://developer.chrome.com/docs/extensions/reference/storage/
-    yield call(() => getAllWalletKeys().then((awk) => {
-        if (Array.isArray(awk)) {
-            awk.push(action.payload.name)
-        }
-        else {
-            awk = [action.payload.name]
-        }
-        chrome.storage.local.set({
-            [action.payload.name]: action.payload.content,
-            [ACTIVE_WALLET]: action.payload.name,
-            [ALL_WALLET_KEYS]: awk
-        })
+    const awk = yield call(getAllWalletKeys)
+    console.log("that awk", awk)
+    yield call(setAllWalletKeys, [awk, action.payload.name, action.payload.content])
+    let monero_wallet = create_monero_wallet(action.payload.content)
+    monero_wallet.then((x) => {
+        console.log("data", x.getData())
+    })
+    if (Array.isArray(Window.wallets)) {
+        Window.wallets.push(monero_wallet)
+    }
+    else {
+        Window.wallets = [monero_wallet]
+    }
 
 
-    }).then(() => {
-        let monero_wallet = create_monero_wallet(action.payload.content)
-        monero_wallet.then((x) => {
-            console.log("data", x.getData())
-        })
-        if (Array.isArray(Window.wallets)) {
-            Window.wallets.push(monero_wallet)
-        }
-        else {
-            Window.wallets = [monero_wallet]
-        }
-
-    }))
 }
 
 function* createWalletSaga() {
