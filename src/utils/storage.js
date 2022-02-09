@@ -1,17 +1,18 @@
+const STORAGE_AREA = 'local';
 export const storage = {
-    get: (key, defaultValue, storageArea) => {
+    get: (key, defaultValue) => {
         const keyObj = defaultValue === undefined ? key : { [key]: defaultValue };
         return new Promise((resolve, reject) => {
-            chrome.storage[storageArea].get(keyObj, items => {
+            chrome.storage[STORAGE_AREA].get(keyObj, items => {
                 const error = chrome.runtime.lastError;
                 if (error) return reject(error);
                 resolve(items[key]);
             });
         });
     },
-    set: (key, value, storageArea) => {
+    set: (keys_values) => {
         return new Promise((resolve, reject) => {
-            chrome.storage[storageArea].set({ [key]: value }, () => {
+            chrome.storage[STORAGE_AREA].set(keys_values, () => {
                 const error = chrome.runtime.lastError;
                 error ? reject(error) : resolve();
             });

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useChromeStorageLocal } from 'use-chrome-storage';
 import { ACTIVE_WALLET, ALL_WALLET_KEYS } from "../pages/Background/background_app/createWalletSaga";
 import { storage } from './storage'
 const STORAGE_AREA = 'local';
@@ -10,7 +9,7 @@ const useCurrentWallets = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        storage.get(ALL_WALLET_KEYS, [], STORAGE_AREA)
+        storage.get(ALL_WALLET_KEYS, [])
             .then(res => {
                 console.log("GET ALLWALLET KEYS first time", res)
                 setAWK(res);
@@ -21,10 +20,10 @@ const useCurrentWallets = () => {
                 setIsPersistent(false);
                 setError(error);
             });
-    }, [ALL_WALLET_KEYS, STORAGE_AREA]);
+    }, [ALL_WALLET_KEYS]);
 
     useEffect(() => {
-        storage.get(awk, [], STORAGE_AREA)
+        storage.get(awk, [])
             .then(res => {
                 console.log("GET ALLWALLETs first time", res)
                 setAW(res);
