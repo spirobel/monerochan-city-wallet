@@ -63,3 +63,32 @@ export function setAllWalletKeys(awk, name, content) {
 
 
 }
+export async function saveWalletData(name, data) {
+    //similar to the way firmware OTA updates work on microcontrollers we have two slots in case the write was not complete
+    const data1 = name + "_data1"
+    const data2 = name + "_data2"
+    const nsp_name = name + "_next_save_partion"
+    const nsp = await storage.get(nsp_name, data1) //1.get the next partion to save to
+    await storage.set({
+        [nsp]: {
+            keysData: data[0],
+            cacheData: data[1]
+        }
+    })
+    nsp = nsp === data1 ? data2 : data1; //2.recalculate the new next save partition value
+    await storage.set({ //3.set the next save partition to the new value.
+        [nsp_name]: nsp
+    })
+}
+
+export async function loadWalletData(name) {
+    //assumption: we should always be able to find saved data,
+    //because createWalletSaga immediatly saves the wallet after creation.
+    const data1 = name + "_data1"
+    const data2 = name + "_data2"
+    const nsp_name = name + "_next_save_partion"
+    const nsp = await storage.get(nsp_name, data1)
+    const current_save_partition = nsp === data1 ? data2 : data1;
+    const data = await storage.get(current_save_partition)
+    return data //{keysData, cacheData}
+}
