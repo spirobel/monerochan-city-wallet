@@ -8,7 +8,6 @@ export async function create_monero_wallet(wallet_config) {
     let config = {
         networkType: wallet_config.networkType,
         password: wallet_config.password,
-        serverUri: wallet_config.serverUri,
         mnemonic: wallet_config.mnemonic
     }
 
