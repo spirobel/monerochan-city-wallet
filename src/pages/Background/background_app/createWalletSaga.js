@@ -1,23 +1,25 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { getAllWalletKeys, create_monero_wallet, setAllWalletKeys } from "./moneroWalletUtils"
+import { getAllWalletKeys, create_monero_wallet, setAllWalletKeys, saveWalletData } from "./moneroWalletUtils"
 
 function* workCreateWallet(action) {
-    //chrome.localstore set action.payload
-    //https://developer.chrome.com/docs/extensions/reference/storage/
+
     const awk = yield call(getAllWalletKeys)
-    console.log("that awk", awk)
-    yield call(setAllWalletKeys, [awk, action.payload.name, action.payload.content])
-    let monero_wallet = create_monero_wallet(action.payload.content)
-    monero_wallet.then((x) => {
-        console.log("data", x.getData())
-    })
+    yield call(setAllWalletKeys, awk, action.payload.name, action.payload.content) //1.add wallet info to local storage
+
+    const monero_wallet = yield call(create_monero_wallet, action.payload.content) //2.create monero wallet object
+
     if (Array.isArray(Window.wallets)) {
         Window.wallets.push(monero_wallet)
     }
     else {
         Window.wallets = [monero_wallet]
     }
+    Window.wallets = [...new Set(Window.wallets)] // remove duplicates from live wallets array
 
+    const data = yield call([monero_wallet, getData])//3.save wallet data
+    yield call(saveWalletData, action.payload.name, data)
+
+    yield call([monero_wallet, setDaemonConnection], action.payload.serverUri) //4. setDaemon Connection
 
 }
 
