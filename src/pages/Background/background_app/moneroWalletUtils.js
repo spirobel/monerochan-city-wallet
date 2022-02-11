@@ -71,11 +71,11 @@ export async function saveWalletData(name, data) {
     const data1 = name + "_data1"
     const data2 = name + "_data2"
     const nsp_name = name + "_next_save_partion"
-    const nsp = await storage.get(nsp_name, data1) //1.get the next partion to save to
+    let nsp = await storage.get(nsp_name, data1) //1.get the next partion to save to
     await storage.set({
         [nsp]: {
-            keysData: data[0],
-            cacheData: data[1]
+            keysData: JSON.stringify(data[0]),
+            cacheData: JSON.stringify(data[1])
         }
     })
     nsp = nsp === data1 ? data2 : data1; //2.recalculate the new next save partition value
@@ -92,6 +92,6 @@ export async function loadWalletData(name) {
     const nsp_name = name + "_next_save_partion"
     const nsp = await storage.get(nsp_name, data1)
     const current_save_partition = nsp === data1 ? data2 : data1;
-    const data = await storage.get(current_save_partition)
+    const data = JSON.parse(await storage.get(current_save_partition))
     return data //{keysData, cacheData}
 }
