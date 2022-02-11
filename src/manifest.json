@@ -42,6 +42,7 @@
     "activeTab",
     "contextMenus",
     "webRequest",
-    "<all_urls>"
+    "<all_urls>",
+    "unlimitedStorage"
   ]
 }
