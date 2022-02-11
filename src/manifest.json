@@ -40,6 +40,8 @@
     "storage",
     "clipboardWrite",
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "webRequest",
+    "<all_urls>"
   ]
 }
