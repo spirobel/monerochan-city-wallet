@@ -48,6 +48,9 @@ export function getAllWalletKeys() {
 
 export function setAllWalletKeys(awk, name, content) {
     if (Array.isArray(awk)) { //1.add new name to awk
+        if (awk.includes(name)) {
+            throw "wallet with this name already exists: name: " + name;
+        };
         awk.push(name)
     }
     else {
