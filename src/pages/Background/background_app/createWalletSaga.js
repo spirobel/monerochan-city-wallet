@@ -16,10 +16,12 @@ function* workCreateWallet(action) {
     }
     Window.wallets = [...new Set(Window.wallets)] // remove duplicates from live wallets array
 
-    const data = yield call([monero_wallet, getData])//3.save wallet data
+    const data = yield call([monero_wallet, "getData"])//3.save wallet data
     yield call(saveWalletData, action.payload.name, data)
 
-    yield call([monero_wallet, setDaemonConnection], action.payload.serverUri) //4. setDaemon Connection
+    yield call([monero_wallet, "setDaemonConnection"], action.payload.content.serverUri) //4. setDaemon Connection
+    console.log("monero_wallet", monero_wallet, "data", data, "uri", action.payload.content.serverUri)
+    monero_wallet.getDaemonConnection().then((x) => console.log("daemon connection", x, this))
 
 }
 
