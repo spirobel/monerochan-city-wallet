@@ -20,9 +20,6 @@ function* workCreateWallet(action) {
     yield call(saveWalletData, action.payload.name, data)
 
     yield call([monero_wallet, "setDaemonConnection"], action.payload.content.serverUri) //4. setDaemon Connection
-    console.log("monero_wallet", monero_wallet, "data", data, "uri", action.payload.content.serverUri)
-    monero_wallet.getDaemonConnection().then((x) => console.log("daemon connection", x, this))
-
 }
 
 function* createWalletSaga() {
