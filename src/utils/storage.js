@@ -6,6 +6,7 @@ export const storage = {
             chrome.storage[STORAGE_AREA].get(keyObj, items => {
                 const error = chrome.runtime.lastError;
                 if (error) return reject(error);
+                if (Array.isArray(key)) { resolve(items) }
                 resolve(items[key]);
             });
         });
