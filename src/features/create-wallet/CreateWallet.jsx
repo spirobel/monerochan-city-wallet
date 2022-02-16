@@ -12,7 +12,8 @@ export default function CreateWallet() {
         name: "monerochans stash",
         networkType: "stagenet", //switch to mainnet after leaving alpha
         password: "password",
-        serverUri: "http://stagenet.xmr-tw.org:38081" //switch to mainnet after leaving alpha
+        serverUri: "http://stagenet.xmr-tw.org:38081", //switch to mainnet after leaving alpha
+        sync: true,
     }
     const [form] = Form.useForm();
     const [draftWallet, setdraftWallet] = useChromeStorageLocal('wallet-draft', initalValues);
