@@ -4,7 +4,7 @@ import { storage } from './storage'
 const STORAGE_AREA = 'local';
 const useCurrentWallets = () => {
     const [awk, setAWK] = useState([]);
-    const [aw, setAW] = useState({});
+    const [aw, setAW] = useState([]);
     const [isPersistent, setIsPersistent] = useState(true);
     const [error, setError] = useState('');
 
@@ -23,9 +23,14 @@ const useCurrentWallets = () => {
     }, [ALL_WALLET_KEYS]);
 
     useEffect(() => {
-        storage.get(awk, [])
+        const newObject = awk.reduce(function (result, item, index) {
+            result[item] = []
+            return result
+        }, {})
+        storage.get(awk)
             .then(res => {
-                console.log("GET ALLWALLETs first time", res)
+                console.log("GET ALLWALLETs first timeZZ", res, awk, newObject, this)
+                if (!res) { res = [] }
                 setAW(res);
                 setIsPersistent(true);
                 setError('');
