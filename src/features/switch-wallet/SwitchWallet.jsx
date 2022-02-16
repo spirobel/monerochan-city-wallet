@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useChromeStorageLocal } from 'use-chrome-storage';
-import { Form, Input, Button, Checkbox, Radio, List, Card, Tooltip } from 'antd';
+import { Form, Input, Button, Checkbox, Radio, List, Card, Tooltip, Typography } from 'antd';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatchBackground } from '../../utils/dispatchBackground';
 import { saveWallet } from '../../pages/Background/background_app/createWalletSaga';
@@ -9,6 +10,7 @@ import { navigate } from '../navigation/navigation-slice'
 import useCurrentWallets from '../../utils/useCurrentWallets';
 import { ACTIVE_WALLET } from "../../pages/Background/background_app/createWalletSaga";
 
+const { Text } = Typography;
 
 
 export default function CreateWallet() {
@@ -25,9 +27,11 @@ export default function CreateWallet() {
                 dataSource={awk}
                 renderItem={item => {
                     let title = item;
+                    let sync = false
                     let extra = null;
                     if (aw[item]) {
                         title = aw[item].name
+                        sync = aw[item].sync
                     }
                     if (item === mainWallet) {
                         extra =
@@ -51,7 +55,11 @@ export default function CreateWallet() {
                             ]}
                             extra={extra}
                             title={title}
-                            style={{ 'margin-bottom': '1em' }}>Card content{console.log("INSIDE", aw[item])}</Card>
+                            style={{ 'margin-bottom': '1em' }}>Card content
+                            <br />
+                            {sync && <Text type="success">wallet sync turned on</Text>}
+
+                            {console.log("INSIDE", aw[item])}</Card>
 
                     )
                 }

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { ACTIVE_WALLET, ALL_WALLET_KEYS } from "../pages/Background/background_app/createWalletSaga";
 import { storage } from './storage'
 const STORAGE_AREA = 'local';
 const useCurrentWallets = () => {
     const [awk, setAWK] = useState([]);
-    const [aw, setAW] = useState([]);
+    const [aw, setAW] = useState({});
     const [isPersistent, setIsPersistent] = useState(true);
     const [error, setError] = useState('');
 
@@ -23,13 +23,9 @@ const useCurrentWallets = () => {
     }, [ALL_WALLET_KEYS]);
 
     useEffect(() => {
-        const newObject = awk.reduce(function (result, item, index) {
-            result[item] = []
-            return result
-        }, {})
         storage.get(awk)
             .then(res => {
-                console.log("GET ALLWALLETs first timeZZ", res, awk, newObject, this)
+                console.log("GET ALLWALLETs first timeZZ", res)
                 if (!res) { res = [] }
                 setAW(res);
                 setIsPersistent(true);
@@ -63,10 +59,22 @@ const useCurrentWallets = () => {
             chrome.storage.onChanged.removeListener(onChange);
         };
     }, [awk, aw, STORAGE_AREA, ALL_WALLET_KEYS]);
+    const toggleSync = useCallback((walletName) => {
+        const wallet = aw[walletName]
+        wallet.sync = !wallet.sync
+        storage.set(walletName, wallet)
+            .then(() => {
+                setIsPersistent(true);
+                setError('');
+            })
+            .catch(error => {
+                setIsPersistent(false);
+                setError(error);
+            });
+    }, [storage, aw]);
 
 
 
-
-    return [awk, aw, isPersistent, error];
+    return { awk, aw, toggleSync };
 }
 export default useCurrentWallets;
