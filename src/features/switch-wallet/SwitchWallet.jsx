@@ -55,7 +55,7 @@ export default function CreateWallet() {
                             ]}
                             extra={extra}
                             title={title}
-                            style={{ 'margin-bottom': '1em' }}>Card content
+                            style={{ marginBottom: '1em' }}>Card content
                             <br />
                             {sync && <Text type="success">wallet sync turned on</Text>}
 
