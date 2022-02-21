@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useChromeStorageLocal } from 'use-chrome-storage';
-import { Form, Input, Button, Checkbox, Radio, List, Card, Tooltip, Typography } from 'antd';
+import { Form, Input, Button, Checkbox, Radio, List, Card, Tooltip, Typography, Badge } from 'antd';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatchBackground } from '../../utils/dispatchBackground';
@@ -16,7 +16,32 @@ const { Text } = Typography;
 export default function CreateWallet() {
     const [draftWallet, setdraftWallet] = useChromeStorageLocal('wallet-draft');
     const [mainWallet, setMainWallet] = useChromeStorageLocal(ACTIVE_WALLET);
-
+    const [deleteWallet, setDeleteWallet] = useState(null) //we try to avoid: "do you really wanna do this?"-modals in the ui
+    const [deleteCount, setDeleteCount] = useState(0);
+    const deleteThisWallet = (item) => {
+        if (deleteWallet === item) {
+            if (deleteCount < 9) {
+                setDeleteCount((prevCount) => prevCount + 1)
+                return
+            } else {
+                setDeleteCount(0)
+                setDeleteWallet(null)
+                //TODO actually delete wallet
+                return
+            }
+            //CASE clicked on a different wallet's delete button than before   
+        } else {
+            setDeleteCount(0)
+            setDeleteWallet(item)
+            return
+        }
+    }
+    const deleteCountForThisWallet = (item) => {
+        if (item === deleteWallet) {
+            return deleteCount;
+        }
+        return 0
+    }
     const { awk, aw, toggleSync } = useCurrentWallets();
     const dispatch = useDispatch()
     return (
@@ -49,9 +74,12 @@ export default function CreateWallet() {
                                 <Tooltip title="turn into main wallet">
                                     <WalletOutlined key="main" onClick={() => setMainWallet(item)} />
                                 </Tooltip>,
-                                <Tooltip title="delete wallet">
-                                    <DeleteOutlined key="delete" onClick={() => dispatch(navigate("delete-wallet"))} />
-                                </Tooltip>,
+                                <Tooltip title="press 10 times to delete wallet">
+                                    <Badge count={deleteCountForThisWallet(item)}>
+                                        <DeleteOutlined key="delete" onClick={() => deleteThisWallet(item)} />
+                                    </Badge>
+                                </Tooltip>
+                                ,
                             ]}
                             extra={extra}
                             title={title}
