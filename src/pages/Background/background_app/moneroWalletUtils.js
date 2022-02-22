@@ -48,9 +48,9 @@ export function getAllWalletKeys() {
 
 export function setAllWalletKeys(awk, name, content) {
     if (Array.isArray(awk)) { //1.add new name to awk
-        // if (awk.includes(name)) {
-        //     throw "wallet with this name already exists: name: " + name;
-        // };
+        if (awk.includes(name)) {
+            throw "wallet with this name already exists: name: " + name;
+        };
         awk.push(name)
     }
     else {
@@ -93,5 +93,5 @@ export async function loadWalletData(name) {
     const nsp = await storage.get(nsp_name, data1)
     const current_save_partition = nsp === data1 ? data2 : data1;
     const data = JSON.parse(await storage.get(current_save_partition))
-    return data //{keysData, cacheData}
+    return data //{keysData, cacheData} TODO fix this
 }
