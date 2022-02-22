@@ -14,7 +14,6 @@ const { Text } = Typography;
 
 
 export default function CreateWallet() {
-    const [draftWallet, setdraftWallet] = useChromeStorageLocal('wallet-draft');
     const [mainWallet, setMainWallet] = useChromeStorageLocal(ACTIVE_WALLET);
     const [deleteWallet, setDeleteWallet] = useState(null) //we try to avoid: "do you really wanna do this?"-modals in the ui
     const [deleteCount, setDeleteCount] = useState(0);
@@ -26,7 +25,8 @@ export default function CreateWallet() {
             } else {
                 setDeleteCount(0)
                 setDeleteWallet(null)
-                //TODO actually delete wallet
+                removeWallet(item)
+                //TODO:what about main wallet?
                 return
             }
             //CASE clicked on a different wallet's delete button than before   
@@ -42,7 +42,7 @@ export default function CreateWallet() {
         }
         return 0
     }
-    const { awk, aw, toggleSync } = useCurrentWallets();
+    const { awk, aw, toggleSync, removeWallet } = useCurrentWallets();
     const dispatch = useDispatch()
     return (
         <div>
@@ -57,6 +57,7 @@ export default function CreateWallet() {
                     if (aw[item]) {
                         title = aw[item].name
                         sync = aw[item].sync
+                        console.log("usestat rerender", sync)
                     }
                     if (item === mainWallet) {
                         extra =

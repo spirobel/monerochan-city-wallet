@@ -19,4 +19,12 @@ export const storage = {
             });
         });
     },
+    remove: (keys_values) => {
+        return new Promise((resolve, reject) => {
+            chrome.storage[STORAGE_AREA].remove(keys_values, () => {
+                const error = chrome.runtime.lastError;
+                error ? reject(error) : resolve();
+            });
+        });
+    },
 };

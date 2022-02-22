@@ -74,8 +74,34 @@ const useCurrentWallets = () => {
             });
     }, [storage, aw]);
 
+    const removeWallet = useCallback((walletName) => {
 
+        function removeFromAllWalletKeys(lawk, name) {
+            lawk = lawk.filter(e => e !== name); //remove name from local awk array
+            storage.set({
+                [ALL_WALLET_KEYS]: lawk
+            }).then(() => {
+                setIsPersistent(true);
+                setError('');
+            })
+                .catch(error => {
+                    setIsPersistent(false);
+                    setError(error);
+                });
+        }
 
-    return { awk, aw, toggleSync };
+        removeFromAllWalletKeys(awk, walletName)
+        storage.remove(walletName)
+            .then(() => {
+                setIsPersistent(true);
+                setError('');
+            })
+            .catch(error => {
+                setIsPersistent(false);
+                setError(error);
+            });
+    }, [storage, aw]);
+
+    return { awk, aw, toggleSync, removeWallet };
 }
 export default useCurrentWallets;
