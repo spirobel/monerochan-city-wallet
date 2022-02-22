@@ -96,7 +96,12 @@ export default function CreateWallet() {
 
                 }
             />
-            <Button key="edit" onClick={() => dispatch(navigate("create-wallet"))} >create wallet</Button>
+            <Button onClick={() => dispatch(navigate("menu"))}>
+                <LeftCircleOutlined />Back
+            </Button>
+            <Button onClick={() => dispatch(navigate("create-wallet"))}>
+                create wallet
+            </Button>
         </div>
     );
 };
