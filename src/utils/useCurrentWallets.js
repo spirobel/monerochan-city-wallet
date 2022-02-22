@@ -11,7 +11,6 @@ const useCurrentWallets = () => {
     useEffect(() => {
         storage.get(ALL_WALLET_KEYS, [])
             .then(res => {
-                console.log("GET ALLWALLET KEYS first time", res)
                 setAWK(res);
                 setIsPersistent(true);
                 setError('');
@@ -25,7 +24,6 @@ const useCurrentWallets = () => {
     useEffect(() => {
         storage.get(awk)
             .then(res => {
-                console.log("GET ALLWALLETs first timeZZ", res)
                 if (!res) { res = [] }
                 setAW(res);
                 setIsPersistent(true);
@@ -40,14 +38,17 @@ const useCurrentWallets = () => {
     useEffect(() => {
         const onChange = (changes, areaName) => {
             if (areaName === STORAGE_AREA && ALL_WALLET_KEYS in changes) {
-
                 setAWK(changes[ALL_WALLET_KEYS].newValue);
                 setIsPersistent(true);
                 setError('');
             }
             for (let i in awk) {
                 if (areaName === STORAGE_AREA && awk[i] in changes) {
-                    setAW(prevAW => prevAW[awk[i]] = changes[awk[i]])
+                    setAW(prevAW => {
+                        const newAW = Object.assign({}, prevAW);
+                        newAW[awk[i]] = changes[awk[i]].newValue;
+                        return newAW;
+                    })
                     setIsPersistent(true);
                     setError('');
                 }
@@ -62,7 +63,7 @@ const useCurrentWallets = () => {
     const toggleSync = useCallback((walletName) => {
         const wallet = aw[walletName]
         wallet.sync = !wallet.sync
-        storage.set(walletName, wallet)
+        storage.set({ [walletName]: wallet })
             .then(() => {
                 setIsPersistent(true);
                 setError('');
