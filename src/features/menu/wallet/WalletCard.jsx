@@ -8,6 +8,7 @@ import styles from './WalletCard.module.scss'
 import classNames from 'classnames';
 import wallet from '../../../assets/img/wallet.jpg'
 import { ACTIVE_WALLET } from '../../../pages/Background/background_app/createWalletSaga';
+import { storage } from '../../../utils/storage';
 const { Meta } = Card;
 
 
@@ -16,10 +17,11 @@ export function WalletCard(props) {
     const [activeWalletName] = useChromeStorageLocal(ACTIVE_WALLET, "");
     const [activeWallet, setActiveWallet] = useState({ name: " bla" })
     useEffect(() => {
-        chrome.storage.local.get(activeWalletName, function (aw) {
-            setActiveWallet(value => Object.assign({}, aw[activeWalletName]))
-        })
-    }, [activeWallet, setActiveWallet, ACTIVE_WALLET])
+        storage.get(activeWalletName, {})
+            .then(aw => {
+                setActiveWallet(() => Object.assign({}, aw))
+            })
+    }, [activeWalletName, setActiveWallet, ACTIVE_WALLET, storage])
 
     return (
         <Card
