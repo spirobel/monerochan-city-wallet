@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { getAllWalletKeys, create_monero_wallet, setAllWalletKeys, saveWalletData } from "./moneroWalletUtils"
+import { getAllWalletKeys, create_monero_wallet, setAllWalletKeys, saveWalletData, open_monero_wallet } from "./moneroWalletUtils"
 
 function* workCreateWallet(action) {
 
@@ -20,6 +20,29 @@ function* workCreateWallet(action) {
     yield call(saveWalletData, action.payload.name, data)
 
     yield call([monero_wallet, "setDaemonConnection"], action.payload.content.serverUri) //4. setDaemon Connection
+
+
+
+
+
+
+
+    const keysData = data[0]
+    const cacheData = data[1]
+    console.log("loadwalletdata", keysData, cacheData)
+    let config = {
+        networkType: action.payload.content.networkType,
+        password: action.payload.content.password,
+        keysData,
+        cacheData
+    }
+    console.log(config)
+    const wallet_full = yield call(open_monero_wallet, config)
+    console.log("wafuuuuu", wallet_full)
+
+
+
+
 }
 
 function* createWalletSaga() {
