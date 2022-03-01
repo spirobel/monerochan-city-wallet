@@ -20,7 +20,7 @@ function Navigation() {
       main = <Home />
       break;
     case 'test':
-      main = <div>test</div>
+      main = <div>make a new address for everyone. its free and the cops cant stop you.*address dispenser*</div>
       break;
     case 'create-wallet':
       main = <CreateWallet />
