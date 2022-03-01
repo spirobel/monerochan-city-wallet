@@ -72,10 +72,33 @@ export async function saveWalletData(name, data) {
     const data2 = name + "_data2"
     const nsp_name = name + "_next_save_partion"
     let nsp = await storage.get(nsp_name, data1) //1.get the next partion to save to
+
+
+    const base64_arraybuffer = async (data) => {
+        // Use a FileReader to generate a base64 data URI
+        const base64url = await new Promise((r) => {
+            const reader = new FileReader()
+            reader.onload = () => r(reader.result)
+            reader.readAsDataURL(new Blob([data]))
+        })
+
+        /*
+        The result looks like 
+        "data:application/octet-stream;base64,<your base64 data>", 
+        so we split off the beginning:
+        */
+        return base64url.split(",", 2)[1]
+    }
+
+    // example use:
+    const keysData = await base64_arraybuffer(data[0])
+    const cacheData = await base64_arraybuffer(data[1])
+
+
     await storage.set({
         [nsp]: {
-            keysData: JSON.stringify(data[0]),
-            cacheData: JSON.stringify(data[1])
+            keysData,
+            cacheData
         }
     })
     nsp = nsp === data1 ? data2 : data1; //2.recalculate the new next save partition value
@@ -92,6 +115,8 @@ export async function loadWalletData(name) {
     const nsp_name = name + "_next_save_partion"
     const nsp = await storage.get(nsp_name, data1)
     const current_save_partition = nsp === data1 ? data2 : data1;
-    const data = JSON.parse(await storage.get(current_save_partition))
-    return data //{keysData, cacheData} TODO fix this
+    const data = await storage.get(current_save_partition)
+    const keysData = new Uint8Array(Buffer.from(data.keysData, 'base64'));
+    const cacheData = new Uint8Array(Buffer.from(data.cacheData, 'base64'));
+    return { keysData, cacheData }
 }
