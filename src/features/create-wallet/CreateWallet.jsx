@@ -3,7 +3,7 @@ import { useChromeStorageLocal } from 'use-chrome-storage';
 import { Form, Input, Button, Checkbox, Radio } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { dispatchBackground } from '../../utils/dispatchBackground';
-import { saveWallet } from '../../pages/Background/background_app/createWalletSaga';
+import { ALL_WALLET_KEYS, saveWallet } from '../../pages/Background/background_app/createWalletSaga';
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { navigate } from '../navigation/navigation-slice'
 
@@ -17,16 +17,15 @@ export default function CreateWallet() {
     }
     const [form] = Form.useForm();
     const [draftWallet, setdraftWallet] = useChromeStorageLocal('wallet-draft', initalValues);
+    const [AWK] = useChromeStorageLocal(ALL_WALLET_KEYS, []);
 
     const dispatch = useDispatch()
     //mnemonic(optional), password: required, advanced: {restore from private view+spendkey, primary address},networkType,serverUri, restoreHeight)
     const onFinish = (values) => {
         console.log('Success:', values);
-        //TODO check that wallet does not already exist
         dispatchBackground(saveWallet("wallet/" + draftWallet.name, draftWallet))
         setdraftWallet(initalValues)
         form.resetFields();
-        //TODO: change current wallet to the one just saved
         dispatch(navigate("menu"))
     };
     const onValuesChange = (changedValues, allValues) => {
@@ -49,7 +48,15 @@ export default function CreateWallet() {
                 <Form.Item
                     label="name"
                     name="name"
-                    rules={[{ required: true, message: 'Please input a name for your wallet!' }]}
+                    rules={[{ required: true, message: 'Please input a name for your wallet!' }, {
+                        validator: (_, value) => {
+                            let wallet_name = "wallet/" + value
+                            if (AWK.includes(wallet_name)) {
+                                return Promise.reject(new Error('A wallet with this name already exists. Pick a different one!'));
+                            }
+                            return Promise.resolve();
+                        }
+                    }]}
                 >
                     <Input />
                 </Form.Item>
