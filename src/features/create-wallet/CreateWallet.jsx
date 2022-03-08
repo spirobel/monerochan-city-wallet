@@ -66,9 +66,6 @@ export default function CreateWallet() {
                 >
                     <Input.Password />
                 </Form.Item>
-                <Form.Item name="mnemonic" label="seed phrase">
-                    <Input.TextArea />
-                </Form.Item>
 
                 <Form.Item name="networkType" label="network type" >
                     <Radio.Group>
