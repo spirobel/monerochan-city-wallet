@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useChromeStorageLocal } from 'use-chrome-storage';
 import { navigate, selectCurrentPage } from '../../navigation/navigation-slice'
 import { Card, Tooltip } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import { EditOutlined, EllipsisOutlined, SettingOutlined, ImportOutlined } from '@ant-design/icons'
 import styles from './WalletCard.module.scss'
 import classNames from 'classnames';
 import wallet from '../../../assets/img/wallet.jpg'
@@ -34,8 +34,11 @@ export function WalletCard(props) {
                 <Tooltip title="create new wallet">
                     <SettingOutlined key="edit" onClick={() => dispatch(navigate("create-wallet"))} />
                 </Tooltip>,
-                <Tooltip title="switch wallet">
-                    <EllipsisOutlined key="ellipsis" onClick={() => dispatch(navigate("switch-wallet"))} />
+                <Tooltip title="import old wallet from seed phrase">
+                    <ImportOutlined key="import" onClick={() => dispatch(navigate("import-wallet"))} />
+                </Tooltip>,
+                <Tooltip title="list wallets">
+                    <EllipsisOutlined key="ellipsis" onClick={() => dispatch(navigate("list-wallets"))} />
                 </Tooltip>,
             ]}
         >

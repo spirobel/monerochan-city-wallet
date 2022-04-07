@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Home from '../home/Home';
 import Menu from '../menu/Menu';
 import CreateWallet from '../create-wallet/CreateWallet'
-import SwitchWallet from '../switch-wallet/SwitchWallet'
+import ListWallets from '../list-wallets/ListWallets'
 import { Button, Layout, Space, } from 'antd';
 import MoneroLogo from './logo.jsx'
 import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
+import ImportWallet from '../import-wallet/ImportWallet';
 const Monero = props => <Icon component={MoneroLogo} {...props} />;
 const { Header, Content } = Layout;
 
@@ -25,8 +26,11 @@ function Navigation() {
     case 'create-wallet':
       main = <CreateWallet />
       break;
-    case 'switch-wallet':
-      main = <SwitchWallet />
+    case 'import-wallet':
+      main = <ImportWallet />
+      break;
+    case 'list-wallets':
+      main = <ListWallets />
       break;
     case 'menu':
       main = <Menu />
