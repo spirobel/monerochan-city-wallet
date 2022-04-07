@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { getAllWalletKeys, create_monero_wallet, setAllWalletKeys, saveWalletData, open_monero_wallet } from "./moneroWalletUtils"
-
+import { syncWalletSync } from "./syncWalletSyncSaga"
 function* workCreateWallet(action) {
 
     const awk = yield call(getAllWalletKeys)
@@ -8,41 +8,26 @@ function* workCreateWallet(action) {
 
     const monero_wallet = yield call(create_monero_wallet, action.payload.content) //2.create monero wallet object
 
-    if (Array.isArray(Window.wallets)) {
-        Window.wallets.push(monero_wallet)
+
+
+    function isObject(objValue) {
+        return objValue && typeof objValue === 'object' && objValue.constructor === Object;
+    }
+
+    if (isObject(Window.wallets)) {
+        Window.wallets[action.payload.name] = monero_wallet
     }
     else {
-        Window.wallets = [monero_wallet]
+        Window.wallets = {}
+        Window.wallets[action.payload.name] = monero_wallet
     }
-    Window.wallets = [...new Set(Window.wallets)] // remove duplicates from live wallets array
 
     const data = yield call([monero_wallet, "getData"])//3.save wallet data
     yield call(saveWalletData, action.payload.name, data)
-
+    let sh = yield call([monero_wallet, "getSyncHeight"])
+    console.log("synchheigt on CREATE daemon connection:", sh)
     yield call([monero_wallet, "setDaemonConnection"], action.payload.content.serverUri) //4. setDaemon Connection
-
-
-
-
-
-
-
-    const keysData = data[0]
-    const cacheData = data[1]
-    console.log("loadwalletdata", keysData, cacheData)
-    let config = {
-        networkType: action.payload.content.networkType,
-        password: action.payload.content.password,
-        keysData,
-        cacheData
-    }
-    console.log(config)
-    const wallet_full = yield call(open_monero_wallet, config)
-    console.log("wafuuuuu", wallet_full)
-
-
-
-
+    yield put(syncWalletSync(action.payload.name))
 }
 
 function* createWalletSaga() {

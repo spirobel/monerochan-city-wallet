@@ -1,14 +1,60 @@
 import { ACTIVE_WALLET, ALL_WALLET_KEYS } from "./createWalletSaga";
 import { storage } from '../../../utils/storage'
 
-const monerojs = require("monero-javascript");
+export const monerojs = require("monero-javascript");
 
+
+class WalletListener extends monerojs.MoneroWalletListener {
+    constructor() {
+        super();
+        console.log("whatup", this)
+    }
+    onNewBlock(height) {
+        console.log("itshappening")
+        console.log("new block", height)
+    }
+    onOutputReceived(output) {
+        let amount = output.getAmount();
+        let txHash = output.getTx().getHash();
+        let isConfirmed = output.getTx().isConfirmed();
+        let isLocked = output.getTx().isLocked();
+        console.log("output received", output, output.getTx())
+
+    }
+    onOutputSpent(output) {
+        console.log("output spent", output, output.getTx())
+    }
+    onBalancesChanged(newBalance, newUnlockedBalance) {
+        console.log("changed balance", newBalance)
+
+    }
+    onSyncProgress(height, startHeight, endHeight, percentDone, message) {
+        console.log("sync percentage done", percentDone, message)
+    }
+
+}
+
+
+
+
+
+export async function start_monero_wallet_sync(monero_wallet) {
+    let listener = new WalletListener();
+    console.log("wallet", monero_wallet, listener)
+
+    // receive notifications when funds are received, confirmed, and unlocked
+    //yield call([monero_wallet, "addListener"], listener)
+    await monero_wallet.addListener(listener)
+
+}
 
 export async function create_monero_wallet(wallet_config) {
     let config = {
         networkType: wallet_config.networkType,
         password: wallet_config.password,
-        mnemonic: wallet_config.mnemonic
+        mnemonic: wallet_config.mnemonic,
+        serverUri: wallet_config.serverUri,
+        restoreHeight: wallet_config.restoreHeight
     }
 
     let wallet = await monerojs.createWalletFull(config);
@@ -72,7 +118,7 @@ export async function saveWalletData(name, data) {
     const data2 = name + "_data2"
     const nsp_name = name + "_next_save_partion"
     let nsp = await storage.get(nsp_name, data1) //1.get the next partion to save to
-
+    console.log("NSP", nsp)
 
     const base64_arraybuffer = async (data) => {
         // Use a FileReader to generate a base64 data URI
@@ -105,6 +151,9 @@ export async function saveWalletData(name, data) {
     await storage.set({ //3.set the next save partition to the new value.
         [nsp_name]: nsp
     })
+    const dataa = await storage.get(nsp)
+    console.log("saved data", dataa)
+
 }
 
 export async function loadWalletData(name) {
@@ -115,7 +164,9 @@ export async function loadWalletData(name) {
     const nsp_name = name + "_next_save_partion"
     const nsp = await storage.get(nsp_name, data1)
     const current_save_partition = nsp === data1 ? data2 : data1;
+    console.log("current partion", current_save_partition)
     const data = await storage.get(current_save_partition)
+    console.log("DATA", data, name)
     const keysData = new Uint8Array(Buffer.from(data.keysData, 'base64'));
     const cacheData = new Uint8Array(Buffer.from(data.cacheData, 'base64'));
     return { keysData, cacheData }

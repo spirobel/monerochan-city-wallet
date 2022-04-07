@@ -4,10 +4,12 @@ import createSagaMiddleware from '@redux-saga/core';
 import { all, call, spawn } from 'redux-saga/effects'
 import createWalletSaga from './createWalletSaga';
 import janitorSaga from './janitorSaga';
+import syncWalletSyncSaga from './syncWalletSyncSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
         createWalletSaga,
+        syncWalletSyncSaga,
         janitorSaga
     ];
 

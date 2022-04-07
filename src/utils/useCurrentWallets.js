@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { ACTIVE_WALLET, ALL_WALLET_KEYS } from "../pages/Background/background_app/createWalletSaga";
-import { storage } from './storage'
+import { storage } from './storage';
+import { syncWalletSync } from "../pages/Background/background_app/syncWalletSyncSaga";
+import { dispatchBackground } from "./dispatchBackground";
+
 const STORAGE_AREA = 'local';
 const useCurrentWallets = () => {
     const [awk, setAWK] = useState([]);
@@ -61,6 +64,7 @@ const useCurrentWallets = () => {
         };
     }, [awk, aw, STORAGE_AREA, ALL_WALLET_KEYS]);
     const toggleSync = useCallback((walletName) => {
+        dispatchBackground(syncWalletSync(walletName))
         const wallet = aw[walletName]
         wallet.sync = !wallet.sync
         storage.set({ [walletName]: wallet })
