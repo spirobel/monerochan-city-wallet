@@ -41,7 +41,6 @@ var options = {
     popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.jsx'),
     background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
     contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
-    devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
@@ -270,12 +269,6 @@ var options = {
       template: path.join(__dirname, 'src', 'pages', 'Popup', 'index.html'),
       filename: 'popup.html',
       chunks: ['popup'],
-      cache: false,
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.html'),
-      filename: 'devtools.html',
-      chunks: ['devtools'],
       cache: false,
     }),
     new HtmlWebpackPlugin({
