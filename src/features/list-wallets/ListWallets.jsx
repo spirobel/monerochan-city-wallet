@@ -13,7 +13,7 @@ import { ACTIVE_WALLET } from "../../pages/Background/background_app/createWalle
 const { Text } = Typography;
 
 
-export default function CreateWallet() {
+export default function ListWallets() {
     const [mainWallet, setMainWallet] = useChromeStorageLocal(ACTIVE_WALLET);
     const [deleteWallet, setDeleteWallet] = useState(null) //we try to avoid: "do you really wanna do this?"-modals in the ui
     const [deleteCount, setDeleteCount] = useState(0);
