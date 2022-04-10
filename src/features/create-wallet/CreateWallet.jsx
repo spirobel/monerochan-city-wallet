@@ -21,7 +21,7 @@ export default function CreateWallet() {
     const [draftWallet, setdraftWallet] = useChromeStorageLocal('wallet-draft', initalValues);
     let wallet_name_used_already = useLiveQuery(
         async () => {
-            const wc = await db.wallet_config.where({ wallet_name: draftWallet.name }).count()
+            const wc = await db.wallet_config.where({ name: draftWallet.name }).count()
             return wc !== 0;
         },
         [draftWallet.name]
@@ -30,7 +30,7 @@ export default function CreateWallet() {
     //mnemonic(optional), password: required, advanced: {restore from private view+spendkey, primary address},networkType,serverUri, restoreHeight)
     const onFinish = (values) => {
         console.log('Success:', values);
-        dispatchBackground(saveWallet(draftWallet.name, draftWallet))
+        dispatchBackground(saveWallet(draftWallet))
         setdraftWallet(initalValues)
         form.resetFields();
         dispatch(navigate("menu"))

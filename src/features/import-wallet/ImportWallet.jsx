@@ -23,7 +23,7 @@ export default function ImportWallet() {
 
     let wallet_name_used_already = useLiveQuery(
         async () => {
-            const wc = await db.wallet_config.where({ wallet_name: draftWallet.name }).count()
+            const wc = await db.wallet_config.where({ name: draftWallet.name }).count()
             return wc !== 0;
         },
         [draftWallet.name]
@@ -34,7 +34,7 @@ export default function ImportWallet() {
     //TODO enable sync height approximation from date
     const onFinish = (values) => {
         console.log('Success:', values);
-        dispatchBackground(saveWallet(draftWallet.name, draftWallet))
+        dispatchBackground(saveWallet(draftWallet))
         setdraftWallet(initalValues)
         form.resetFields();
         dispatch(navigate("menu"))
