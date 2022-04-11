@@ -1,10 +1,10 @@
 import { ACTIVE_WALLET, ALL_WALLET_KEYS } from "./createWalletSaga";
 import { storage } from '../../../utils/storage'
+import { db } from "../../../utils/dexie_db"
 
 export const monerojs = require("monero-javascript");
 
-
-class WalletListener extends monerojs.MoneroWalletListener {
+export class WalletListener extends monerojs.MoneroWalletListener {
     constructor() {
         super();
         console.log("whatup", this)
@@ -34,20 +34,6 @@ class WalletListener extends monerojs.MoneroWalletListener {
 
 }
 
-
-
-
-
-export async function start_monero_wallet_sync(monero_wallet) {
-    let listener = new WalletListener();
-    console.log("wallet", monero_wallet, listener)
-
-    // receive notifications when funds are received, confirmed, and unlocked
-    //yield call([monero_wallet, "addListener"], listener)
-    await monero_wallet.addListener(listener)
-
-}
-
 export async function create_monero_wallet(wallet_config) {
     let config = {
         networkType: wallet_config.networkType,
@@ -61,10 +47,6 @@ export async function create_monero_wallet(wallet_config) {
     return wallet
 }
 
-export async function open_monero_wallet(wallet_config) {
-    let wallet = await monerojs.openWalletFull(wallet_config);
-    return wallet
-}
 
 export function getCurrentActiveWallet() {
 
