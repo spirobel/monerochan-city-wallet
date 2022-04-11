@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useChromeStorageLocal } from 'use-chrome-storage';
-import { Form, Input, Button, Checkbox, Radio } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { Form, Input, Button, Radio } from 'antd';
+import { useDispatch } from 'react-redux';
 import { dispatchBackground } from '../../utils/dispatchBackground';
-import { ALL_WALLET_KEYS, saveWallet } from '../../pages/Background/background_app/createWalletSaga';
+import { syncWalletSync } from '../../pages/Background/background_app/syncWalletSyncSaga';
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { navigate } from '../navigation/navigation-slice'
 import { useLiveQuery } from "dexie-react-hooks";
@@ -29,11 +29,12 @@ export default function CreateWallet() {
     const dispatch = useDispatch()
     //mnemonic(optional), password: required, advanced: {restore from private view+spendkey, primary address},networkType,serverUri, restoreHeight)
     const onFinish = (values) => {
-        console.log('Success:', values);
-        dispatchBackground(saveWallet(draftWallet))
-        setdraftWallet(initalValues)
-        form.resetFields();
-        dispatch(navigate("menu"))
+        db.wallet_config.add(draftWallet).then(() => {
+            dispatchBackground(syncWalletSync(draftWallet.name))
+            setdraftWallet(initalValues)
+            form.resetFields();
+            dispatch(navigate("menu"))
+        })
     };
     const onValuesChange = (changedValues, allValues) => {
         setdraftWallet(allValues)
