@@ -34,20 +34,6 @@ export class WalletListener extends monerojs.MoneroWalletListener {
 
 }
 
-export async function create_monero_wallet(wallet_config) {
-    let config = {
-        networkType: wallet_config.networkType,
-        password: wallet_config.password,
-        mnemonic: wallet_config.mnemonic,
-        serverUri: wallet_config.serverUri,
-        restoreHeight: wallet_config.restoreHeight
-    }
-
-    let wallet = await monerojs.createWalletFull(config);
-    return wallet
-}
-
-
 export function getCurrentActiveWallet() {
 
     return new Promise((resolve) => {
