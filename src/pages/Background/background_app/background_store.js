@@ -2,15 +2,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import devToolsEnhancer from 'remote-redux-devtools';
 import createSagaMiddleware from '@redux-saga/core';
 import { all, call, spawn } from 'redux-saga/effects'
-import createWalletSaga from './createWalletSaga';
-import janitorSaga from './janitorSaga';
+import startupSaga from './startupSaga';
 import syncWalletSyncSaga from './syncWalletSyncSaga';
+import saveWalletSaga from './saveWalletSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
-        createWalletSaga,
+        saveWalletSaga,
         syncWalletSyncSaga,
-        janitorSaga
+        startupSaga
     ];
 
     yield all(sagas.map(saga =>
