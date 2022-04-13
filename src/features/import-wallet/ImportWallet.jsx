@@ -33,7 +33,7 @@ export default function ImportWallet() {
     //mnemonic(optional), password: required, advanced: {restore from private view+spendkey, primary address},networkType,serverUri, restoreHeight)
     //TODO enable sync height approximation from date
     const onFinish = (values) => {
-        db.wallet_config.add({ ...draftWallet, main_wallet: Date.now().getTime() }).then(() => {
+        db.wallet_config.add({ ...draftWallet, main_wallet: Date.now() }).then(() => {
             dispatchBackground(syncWalletSync(draftWallet.name))
             setdraftWallet(initalValues)
             form.resetFields();

@@ -64,7 +64,7 @@ export default function ListWallets() {
                                     <SyncOutlined key="sync" onClick={() => db.wallet_config.update(item.name, { sync: !item.sync })} />
                                 </Tooltip>,
                                 <Tooltip title="turn into main wallet">
-                                    <WalletOutlined key="main" onClick={() => db.wallet_config.update(item.name, { main_wallet: Date.now().getTime() })} />
+                                    <WalletOutlined key="main" onClick={() => db.wallet_config.update(item.name, { main_wallet: Date.now() })} />
                                 </Tooltip>,
                                 <Tooltip title="press 10 times to delete wallet">
                                     <Badge count={deleteCountForThisWallet(item)}>
