@@ -12,7 +12,7 @@ function* workSaveWallet(action) {
     let this_wallet_save_slot = last_wallet_save_slot === "wallet_data1" ? "wallet_data2" : "wallet_data1";
 
     yield call(() => db[this_wallet_save_slot].put({ name: action.payload.name, data }))
-    yield call(() => db.wallet_config.update(action.payload.name, { last_wallet_save_slot: this_wallet_save_slot }))
+    yield call(() => db.wallet_config.update(action.payload.name, { last_wallet_save_slot: this_wallet_save_slot, last_saved_time: Date.now().getTime() }))
 
 }
 
