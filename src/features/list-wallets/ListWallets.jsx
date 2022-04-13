@@ -3,7 +3,8 @@ import { Button, List, Card, Tooltip, Typography, Badge } from 'antd';
 import { useDispatch } from 'react-redux';
 import { LeftCircleOutlined, SyncOutlined, WalletOutlined, DeleteOutlined, WalletTwoTone } from '@ant-design/icons';
 import { navigate } from '../navigation/navigation-slice'
-
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from '../../utils/dexie_db'
 const { Text } = Typography;
 
 
