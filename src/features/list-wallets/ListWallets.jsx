@@ -1,38 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useChromeStorageLocal } from 'use-chrome-storage';
-import { Form, Input, Button, Checkbox, Radio, List, Card, Tooltip, Typography, Badge } from 'antd';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { dispatchBackground } from '../../utils/dispatchBackground';
-import { saveWallet } from '../../pages/Background/background_app/createWalletSaga';
-import { LeftCircleOutlined, ToTopOutlined, SyncOutlined, WalletOutlined, DeleteOutlined, WalletTwoTone } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Button, List, Card, Tooltip, Typography, Badge } from 'antd';
+import { useDispatch } from 'react-redux';
+import { LeftCircleOutlined, SyncOutlined, WalletOutlined, DeleteOutlined, WalletTwoTone } from '@ant-design/icons';
 import { navigate } from '../navigation/navigation-slice'
-import useCurrentWallets from '../../utils/useCurrentWallets';
-import { ACTIVE_WALLET } from "../../pages/Background/background_app/createWalletSaga";
 
 const { Text } = Typography;
 
 
 export default function ListWallets() {
-    const [mainWallet, setMainWallet] = useChromeStorageLocal(ACTIVE_WALLET);
+    const mainWallet = useLiveQuery(
+        () => db.wallet_config.orderBy('main_wallet').last()
+    );
+    const wallets = useLiveQuery(
+        () => db.wallet_config.toArray()
+    );
+
+
+
     const [deleteWallet, setDeleteWallet] = useState(null) //we try to avoid: "do you really wanna do this?"-modals in the ui
     const [deleteCount, setDeleteCount] = useState(0);
     const deleteThisWallet = (item) => {
-        if (deleteWallet === item) {
+        if (deleteWallet === item.name) {
             if (deleteCount < 9) {
                 setDeleteCount((prevCount) => prevCount + 1)
                 return
             } else {
                 setDeleteCount(0)
                 setDeleteWallet(null)
-                removeWallet(item)
+                db.wallet_config.delete(item.name)
+                db.wallet_data1.delete(item.name)
+                db.wallet_data2.delete(item.name)
                 //TODO:what about main wallet?
                 return
             }
             //CASE clicked on a different wallet's delete button than before   
         } else {
             setDeleteCount(0)
-            setDeleteWallet(item)
+            setDeleteWallet(item.name)
             return
         }
     }
@@ -42,38 +46,24 @@ export default function ListWallets() {
         }
         return 0
     }
-    const { awk, aw, toggleSync, removeWallet } = useCurrentWallets();
+
     const dispatch = useDispatch()
     return (
         <div>
             <List
                 size="small"
                 bordered
-                dataSource={awk}
+                dataSource={wallets}
                 renderItem={item => {
-                    let title = item;
-                    let sync = false
-                    let extra = null;
-                    if (aw[item]) {
-                        title = aw[item].name
-                        sync = aw[item].sync
-                        console.log("usestat rerender", sync)
-                    }
-                    if (item === mainWallet) {
-                        extra =
-                            <Tooltip title="main wallet">
-                                <WalletTwoTone />
-                            </Tooltip>
-                    }
                     return (
                         <Card
 
                             actions={[
                                 <Tooltip title="toogle sync">
-                                    <SyncOutlined key="sync" onClick={() => toggleSync(item)} />
+                                    <SyncOutlined key="sync" onClick={() => db.wallet_config.update(item.name, { sync: !item.sync })} />
                                 </Tooltip>,
                                 <Tooltip title="turn into main wallet">
-                                    <WalletOutlined key="main" onClick={() => setMainWallet(item)} />
+                                    <WalletOutlined key="main" onClick={() => db.wallet_config.update(item.name, { main_wallet: Date.now().getTime() })} />
                                 </Tooltip>,
                                 <Tooltip title="press 10 times to delete wallet">
                                     <Badge count={deleteCountForThisWallet(item)}>
@@ -82,13 +72,16 @@ export default function ListWallets() {
                                 </Tooltip>
                                 ,
                             ]}
-                            extra={extra}
-                            title={title}
+                            extra={item.name === mainWallet.name &&
+                                <Tooltip title="main wallet">
+                                    <WalletTwoTone />
+                                </Tooltip>}
+                            title={item.name}
                             style={{ marginBottom: '1em' }}>Card content
                             <br />
-                            {sync && <Text type="success">wallet sync turned on</Text>}
+                            {item.sync && <Text type="success">wallet sync turned on</Text>}
 
-                            {console.log("INSIDE", aw[item])}</Card>
+                        </Card>
 
                     )
                 }
