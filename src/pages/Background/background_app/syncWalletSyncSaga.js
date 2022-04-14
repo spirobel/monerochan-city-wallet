@@ -62,7 +62,7 @@ function* workSyncWallet(action) {
     }
     //3.add monero wallet listener
     // receive notifications when funds are received, confirmed, and unlocked
-    yield call([monero_wallet, "addListener"], new WalletListener())
+    yield call([monero_wallet, "addListener"], new WalletListener(action.payload.name))
     //4. start syncing 
     // synchronize in the background every 5 seconds
     yield call([monero_wallet, "startSyncing"], 5000)
