@@ -16,7 +16,7 @@ function Navigation() {
   let currentPage = useSelector(selectCurrentPage)
   const dispatch = useDispatch()
   let main = <div></div>;
-  switch (currentPage) {
+  switch (currentPage.destination) {
     case 'home':
       main = <Home />
       break;

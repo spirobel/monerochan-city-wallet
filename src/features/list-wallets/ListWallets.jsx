@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, List, Card, Tooltip, Typography, Badge } from 'antd';
 import { useDispatch } from 'react-redux';
 import { LeftCircleOutlined, SyncOutlined, WalletOutlined, DeleteOutlined, WalletTwoTone } from '@ant-design/icons';
-import { navigate } from '../navigation/navigation-slice'
+import { navigate, go_back } from '../navigation/navigation-slice'
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from '../../utils/dexie_db'
 const { Text } = Typography;
@@ -90,7 +90,7 @@ export default function ListWallets() {
 
                 }
             />
-            <Button onClick={() => dispatch(navigate("menu"))}>
+            <Button onClick={() => dispatch(go_back())}>
                 <LeftCircleOutlined />Back
             </Button>
             <Button onClick={() => dispatch(navigate("create-wallet"))}>

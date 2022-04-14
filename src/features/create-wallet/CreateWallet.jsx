@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { dispatchBackground } from '../../utils/dispatchBackground';
 import { syncWalletSync } from '../../pages/Background/background_app/syncWalletSyncSaga';
 import { LeftCircleOutlined } from '@ant-design/icons';
-import { navigate } from '../navigation/navigation-slice'
+import { go_back, navigate } from '../navigation/navigation-slice'
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from '../../utils/dexie_db';
 
@@ -100,7 +100,7 @@ export default function CreateWallet() {
                     }}
                 >
 
-                    <Button onClick={() => dispatch(navigate("menu"))}>
+                    <Button onClick={() => dispatch(go_back())}>
                         <LeftCircleOutlined />Back
                     </Button>
                     <Button type="primary" htmlType="submit">
