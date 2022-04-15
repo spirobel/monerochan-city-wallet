@@ -5,9 +5,11 @@ import { all, call, spawn } from 'redux-saga/effects'
 import startupSaga from './startupSaga';
 import syncWalletSyncSaga from './syncWalletSyncSaga';
 import saveWalletSaga from './saveWalletSaga';
+import saveTransactionSaga from './saveTransactionSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
+        saveTransactionSaga,
         saveWalletSaga,
         syncWalletSyncSaga,
         startupSaga
