@@ -42,6 +42,9 @@ export function WalletCard(props) {
                 title={mainWallet.name}
                 description="This is your currently selected wallet"
             />
+            <Button onClick={() => dispatch(navigate({ destination: "transactions", wallet_name: mainWallet.name }))}>
+                show transactions
+            </Button>
         </Card>
     );
 }
