@@ -1,6 +1,7 @@
 import { db } from "../../../utils/dexie_db"
 import store from "./background_store"
 import { saveWallet } from "./saveWalletSaga";
+import { saveTransaction } from "./saveTransactionSaga";
 
 export const monerojs = require("monero-javascript");
 
@@ -27,10 +28,12 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         let isLocked = output.getTx().isLocked();
         console.log("output received", output, output.getTx())
         store.dispatch(saveWallet(this.wallet_name))
+        store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
     }
     onOutputSpent(output) {
         console.log("output spent", output, output.getTx())
         store.dispatch(saveWallet(this.wallet_name))
+        store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
     }
     onBalancesChanged(newBalance, newUnlockedBalance) {
         console.log("changed balance", newBalance)
