@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { navigate, } from '../../navigation/navigation-slice'
-import { Card, Tooltip } from 'antd';
+import { Card, Tooltip, Button } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, ImportOutlined } from '@ant-design/icons'
 import styles from './WalletCard.module.scss'
 import classNames from 'classnames';
