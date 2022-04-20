@@ -13,6 +13,7 @@ export function Receive() {
     const addresses = useLiveQuery(
         async () => {
             const main_wallet = await db.wallet_config.orderBy('main_wallet').last()
+            if (!mainWallet) { return undefined }
             const subaddresses = await db.subaddress.where({ wallet_name: main_wallet.name }).toArray()
             return subaddresses
         }
