@@ -42,7 +42,7 @@ export default function ListWallets() {
         }
     }
     const deleteCountForThisWallet = (item) => {
-        if (item === deleteWallet) {
+        if (item.name === deleteWallet) {
             return deleteCount;
         }
         return 0
