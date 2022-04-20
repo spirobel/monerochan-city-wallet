@@ -8,7 +8,6 @@ function* workSyncWallet(action) {
     //0. get wallet config and check if we need to sync
     const wallet_config = yield call(() => db.wallet_config.where({ name: action.payload.name }).first())
 
-
     //1.check if wallet object exists
     //2.if not load wallet data and open wallet or create wallet if wallet didnt exist before
 
@@ -46,20 +45,21 @@ function* workSyncWallet(action) {
             })
             Window.wallets[action.payload.name] = monero_wallet
             yield put(saveWallet(action.payload.name))
-        }
-        //OPEN WALLET
-        const wallet_data = yield call(() =>
-            db[wallet_config.last_wallet_save_slot].
-                where({ name: action.payload.name }).first())
+        } else {
+            //OPEN WALLET
+            const wallet_data = yield call(() =>
+                db[wallet_config.last_wallet_save_slot].
+                    where({ name: action.payload.name }).first())
 
-        monero_wallet = yield call([monerojs, "openWalletFull"], {
-            networkType: wallet_config.networkType,
-            password: wallet_config.password,
-            serverUri: wallet_config.serverUri,
-            keysData: wallet_data.data[0],
-            cacheData: wallet_data.data[1]
-        })
-        Window.wallets[action.payload.name] = monero_wallet
+            monero_wallet = yield call([monerojs, "openWalletFull"], {
+                networkType: wallet_config.networkType,
+                password: wallet_config.password,
+                serverUri: wallet_config.serverUri,
+                keysData: wallet_data.data[0],
+                cacheData: wallet_data.data[1]
+            })
+            Window.wallets[action.payload.name] = monero_wallet
+        }
     }
     //3.add monero wallet listener
     // receive notifications when funds are received, confirmed, and unlocked
