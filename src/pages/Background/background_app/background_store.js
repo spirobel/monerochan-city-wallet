@@ -8,9 +8,11 @@ import saveWalletSaga from './saveWalletSaga';
 import saveTransactionSaga from './saveTransactionSaga';
 import createAddressSaga from './createAddressSaga';
 import createTransactionSaga from './createTransactionSaga';
+import relayTransactionSaga from './relayTransactionSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
+        relayTransactionSaga,
         createTransactionSaga,
         createAddressSaga,
         saveTransactionSaga,
