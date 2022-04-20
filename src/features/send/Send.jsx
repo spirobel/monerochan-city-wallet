@@ -31,6 +31,7 @@ export function Send() {
                 form={form}
                 onFinish={onFinish}
                 autoComplete="off"
+                initialValues={{ amount: 1 }}
             >
                 <Form.Item
                     label="address"
@@ -54,7 +55,6 @@ export function Send() {
                         style={{
                             width: 100,
                         }}
-                        defaultValue="1"
                         min="0"
                         step="0.1"
                         stringMode
