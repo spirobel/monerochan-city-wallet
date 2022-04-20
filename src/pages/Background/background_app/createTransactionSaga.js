@@ -3,7 +3,7 @@ import { db } from "../../../utils/dexie_db"
 
 function* workCreateTransaction(action) {
     const monero_wallet = Window.wallets[action.payload.wallet_name]
-    const transaction = yield call([monero_wallet, "createSubaddress"], {
+    const transaction = yield call([monero_wallet, "createTx"], {
         accountIndex: 0,
         address: action.payload.address,
         amount: new BigInteger(action.payload.amount * 1000000000000),
