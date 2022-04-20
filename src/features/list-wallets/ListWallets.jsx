@@ -73,7 +73,7 @@ export default function ListWallets() {
                                 </Tooltip>
                                 ,
                             ]}
-                            extra={item.name === mainWallet.name &&
+                            extra={item.name === mainWallet?.name &&
                                 <Tooltip title="main wallet">
                                     <WalletTwoTone />
                                 </Tooltip>}
