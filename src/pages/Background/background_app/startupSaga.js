@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects'
 import { syncWalletSync } from './syncWalletSyncSaga';
+import { db } from '../../../utils/dexie_db'
 
 function* startupSaga() {
     //syncwallet sync over all the wallets on startup and open the ones that need to be opened/created, synced.
