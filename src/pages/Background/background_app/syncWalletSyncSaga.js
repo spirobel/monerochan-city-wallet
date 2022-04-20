@@ -1,6 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { monerojs, WalletListener } from "./moneroWalletUtils"
 import { saveWallet } from './saveWalletSaga'
+import { db } from '../../../utils/dexie_db'
 
 function* workSyncWallet(action) {
 
