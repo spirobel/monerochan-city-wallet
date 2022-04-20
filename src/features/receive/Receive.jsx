@@ -3,6 +3,7 @@ import { Table, Button } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import { dispatchBackground } from '../../utils/dispatchBackground';
+import { createAddress } from '../../pages/Background/background_app/createAddressSaga'
 
 
 export function Receive() {
@@ -29,7 +30,7 @@ export function Receive() {
 
     return (
         <>
-            <Button onClick={() => dispatchBackground(createAddress(mainWallet.name))}>
+            <Button onClick={() => { if (!mainWallet) { return } dispatchBackground(createAddress(mainWallet.name)) }}>
                 create address!
             </Button>
             <Table dataSource={addresses} columns={columns} />
