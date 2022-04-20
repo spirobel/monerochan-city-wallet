@@ -7,7 +7,7 @@ import { db } from '../../../utils/dexie_db';
 
 export default function TransactionsTable(props) {
     const transactions = useLiveQuery(
-        () => db.transactions.where({ wallet_name: props.wallet_name }).toArray(),
+        () => { if (!props.wallet_name) { return undefined } db.transactions.where({ wallet_name: props.wallet_name }).toArray() },
         [props.wallet_name]
     );
 
