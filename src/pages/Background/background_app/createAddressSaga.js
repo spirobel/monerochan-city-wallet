@@ -1,6 +1,6 @@
-import { call, takeEvery } from 'redux-saga/effects'
+import { call, takeEvery, put } from 'redux-saga/effects'
 import { db } from "../../../utils/dexie_db"
-
+import { saveWallet } from "./saveWalletSaga"
 function* workCreateAddress(action) {
     const monero_wallet = Window.wallets[action.payload.wallet_name]
     const subaddress = yield call([monero_wallet, "createSubaddress"], 0)
@@ -11,6 +11,7 @@ function* workCreateAddress(action) {
         account_index: subaddress.getAccountIndex(),
         subaddress_index: subaddress.getIndex()
     }))
+    put(saveWallet(action.payload.wallet_name))
 
 }
 
