@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, InputNumber } from 'antd';
+import { Button, Input, InputNumber, Form } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import { RightCircleOutlined } from '@ant-design/icons';
@@ -13,7 +13,7 @@ export function Send() {
         () => db.wallet_config.orderBy('main_wallet').last()
     );
     const draft_transaction = useLiveQuery(
-        () => db.draft_transaction.where({ wallet_name: mainWallet.name }).first(),
+        () => { if (!mainWallet) { return undefined } db.draft_transaction.where({ wallet_name: mainWallet?.name }).first() },
         [mainWallet]
     );
 
