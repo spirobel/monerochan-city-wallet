@@ -4,7 +4,6 @@ import createSagaMiddleware from '@redux-saga/core';
 import { all, call, spawn } from 'redux-saga/effects'
 import saveWalletSaga from './saveWalletSaga';
 import syncWalletSyncSaga from './syncWalletSyncSaga';
-import startupSaga from './startupSaga';
 import saveTransactionSaga from './saveTransactionSaga';
 import createAddressSaga from './createAddressSaga';
 import createTransactionSaga from './createTransactionSaga';
@@ -17,8 +16,7 @@ function* rootSaga() {
         createAddressSaga,
         saveTransactionSaga,
         saveWalletSaga,
-        syncWalletSyncSaga,
-        startupSaga
+        syncWalletSyncSaga
     ];
 
     yield all(sagas.map(saga =>
