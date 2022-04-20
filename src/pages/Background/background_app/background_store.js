@@ -2,9 +2,9 @@ import { configureStore } from '@reduxjs/toolkit'
 import devToolsEnhancer from 'remote-redux-devtools';
 import createSagaMiddleware from '@redux-saga/core';
 import { all, call, spawn } from 'redux-saga/effects'
-import startupSaga from './startupSaga';
-import syncWalletSyncSaga from './syncWalletSyncSaga';
 import saveWalletSaga from './saveWalletSaga';
+import syncWalletSyncSaga from './syncWalletSyncSaga';
+import startupSaga from './startupSaga';
 import saveTransactionSaga from './saveTransactionSaga';
 import createAddressSaga from './createAddressSaga';
 import createTransactionSaga from './createTransactionSaga';
