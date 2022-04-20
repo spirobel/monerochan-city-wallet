@@ -11,6 +11,8 @@ import MoneroLogo from './logo.jsx'
 import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
 import ImportWallet from '../import-wallet/ImportWallet';
 import { Receive } from '../receive/Receive';
+import { Send } from '../send/Send';
+
 const Monero = props => <Icon component={MoneroLogo} {...props} />;
 const { Header, Content } = Layout;
 
@@ -24,6 +26,9 @@ function Navigation() {
       break;
     case 'receive':
       main = <Receive />
+      break;
+    case 'send':
+      main = <Send />
       break;
     case 'create-wallet':
       main = <CreateWallet />
@@ -46,7 +51,7 @@ function Navigation() {
     <Layout>
       <Header>
         <Space>
-          <Button onClick={() => dispatch(navigate("create-wallet"))}>
+          <Button onClick={() => dispatch(navigate("send"))}>
             <LeftCircleOutlined />send
           </Button>
           <Button shape="round" onClick={() => dispatch(navigate("home"))}>
