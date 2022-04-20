@@ -50,7 +50,7 @@ const doCreateStore = () => {
     saga.run(rootSaga)
     return store;
 };
-const store = doCreateStore();
 
 
-export default store;
+
+export default doCreateStore;

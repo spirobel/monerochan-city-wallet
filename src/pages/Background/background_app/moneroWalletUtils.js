@@ -1,5 +1,4 @@
 import { db } from "../../../utils/dexie_db"
-import store from "./background_store"
 import { saveWallet } from "./saveWalletSaga";
 import { saveTransaction } from "./saveTransactionSaga";
 
@@ -18,7 +17,7 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         const now = new Date();
         const one_minute_ago = now.setMinutes(now.getMinutes() - 1).getTime();
         if (wallet.last_saved_time < one_minute_ago) {
-            store.dispatch(saveWallet(this.wallet_name))
+            Window.background_store.dispatch(saveWallet(this.wallet_name))
         } //last saved before one_minute ago 
     }
     onOutputReceived(output) {
@@ -27,13 +26,13 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         let isConfirmed = output.getTx().isConfirmed();
         let isLocked = output.getTx().isLocked();
         console.log("output received", output, output.getTx())
-        store.dispatch(saveWallet(this.wallet_name))
-        store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
+        Window.background_store.dispatch(saveWallet(this.wallet_name))
+        Window.background_store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
     }
     onOutputSpent(output) {
         console.log("output spent", output, output.getTx())
-        store.dispatch(saveWallet(this.wallet_name))
-        store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
+        Window.background_store.dispatch(saveWallet(this.wallet_name))
+        Window.background_store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
     }
     onBalancesChanged(newBalance, newUnlockedBalance) {
         console.log("changed balance", newBalance)
