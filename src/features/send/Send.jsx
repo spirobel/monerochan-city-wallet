@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Input, InputNumber } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../../../utils/dexie_db';
+import { db } from '../../utils/dexie_db';
 import { RightCircleOutlined } from '@ant-design/icons';
 import { dispatchBackground } from '../../utils/dispatchBackground';
 import { createTransaction } from '../../pages/Background/background_app/createTransactionSaga';
 import { relayTransaction } from '../../pages/Background/background_app/relayTransactionSaga';
 
 
-export function Receive() {
+export function Send() {
     const mainWallet = useLiveQuery(
         () => db.wallet_config.orderBy('main_wallet').last()
     );

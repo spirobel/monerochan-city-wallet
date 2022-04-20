@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Button } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../../../utils/dexie_db';
+import { db } from '../../utils/dexie_db';
 import { dispatchBackground } from '../../utils/dispatchBackground';
 
 
