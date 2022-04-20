@@ -1,6 +1,9 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
+import { LeftCircleOutlined } from '@ant-design/icons';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { useDispatch } from 'react-redux';
+import { go_back } from '../../navigation/navigation-slice'
 import { db } from '../../../utils/dexie_db';
 
 
@@ -32,9 +35,14 @@ export default function TransactionsTable(props) {
     ]
 
 
+    const dispatch = useDispatch()
 
     return (
-
-        <Table dataSource={transactions} columns={columns} />
+        <>
+            <Table dataSource={transactions} columns={columns} />
+            <Button onClick={() => dispatch(go_back())}>
+                <LeftCircleOutlined />Back
+            </Button>
+        </>
     );
 }
