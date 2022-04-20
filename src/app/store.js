@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import navigationReducer from '../features/navigation/navigation-slice'
 import devToolsEnhancer from 'remote-redux-devtools';
-import { navigate } from '../features/navigation/navigation-slice';
+import { navigate, go_back } from '../features/navigation/navigation-slice';
 
 const doCreateStore = () => {
     //https://stackoverflow.com/questions/37325667/does-es6-module-importing-execute-the-code-inside-the-imported-file
-    const actionCreators = { navigate }
+    const actionCreators = { navigate, go_back }
     const store = configureStore({
         reducer: {
             navigation: navigationReducer
