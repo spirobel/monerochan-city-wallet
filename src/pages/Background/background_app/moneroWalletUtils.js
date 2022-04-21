@@ -13,13 +13,15 @@ export class WalletListener extends monerojs.MoneroWalletListener {
     onNewBlock(height) {
         console.log("itshappening")
         console.log("new block", height)
-        const wallet = db.wallet_config.where({ name: this.wallet_name }).first()
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - 1)
-        const one_minute_ago = now.getTime();
-        if (wallet.last_saved_time < one_minute_ago) {
-            Window.background_store.dispatch(saveWallet(this.wallet_name))
-        } //last saved before one_minute ago 
+        db.wallet_config.where({ name: this.wallet_name }).first().then(wallet => {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - 1)
+            const one_minute_ago = now.getTime();
+            if (wallet.last_saved_time < one_minute_ago) {
+                Window.background_store.dispatch(saveWallet(this.wallet_name))
+            } //last saved before one_minute ago 
+        })
+
     }
     onOutputReceived(output) {
         let amount = output.getAmount();
