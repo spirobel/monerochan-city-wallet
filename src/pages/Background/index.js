@@ -7,7 +7,7 @@ import { syncWalletSync } from "./background_app/syncWalletSyncSaga";
 //now we can do: store.dispatch(action)
 const store = doCreateStore()
 Window.background_store = store;
-db.wallet_config.each(wallet => store.dispatch(syncWalletSync(wallet.name)));
+db.wallet_config.toArray().then(wallets => wallets.forEach(wallet => store.dispatch(syncWalletSync(wallet.name))));
 
 //forwarding the actions dispatched with dispatchBackground.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
