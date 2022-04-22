@@ -1,6 +1,5 @@
 import { db } from "../../../utils/dexie_db"
 import { saveWallet } from "./saveWalletSaga";
-import { saveTransaction } from "./saveTransactionSaga";
 
 export const monerojs = require("monero-javascript");
 
@@ -24,18 +23,32 @@ export class WalletListener extends monerojs.MoneroWalletListener {
 
     }
     onOutputReceived(output) {
-        let amount = output.getAmount();
         let txHash = output.getTx().getHash();
         let isConfirmed = output.getTx().isConfirmed();
-        let isLocked = output.getTx().isLocked();
-        console.log("output received", output, output.getTx())
+
         Window.background_store.dispatch(saveWallet(this.wallet_name))
-        Window.background_store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
+        saveTransaction(this.wallet_name, txHash, { isConfirmed })
+
+        //https://github.com/monero-ecosystem/monero-javascript/issues/60
+        const monero_wallet = Window.wallets[this.wallet_name]
+        monero_wallet.getTx(txHash).then(tx => {
+            let transfers = tx.getIncomingTransfers()
+            saveTransaction(this.wallet_name, txHash, transfers[0])
+        });
     }
     onOutputSpent(output) {
-        console.log("output spent", output, output.getTx())
+        let txHash = output.getTx().getHash();
+        let isConfirmed = output.getTx().isConfirmed();
+
         Window.background_store.dispatch(saveWallet(this.wallet_name))
-        Window.background_store.dispatch(saveTransaction(this.wallet_name, output.getTx().getHash()))//TODO: pass tx.getransfers() result into data 
+        saveTransaction(this.wallet_name, txHash, { isConfirmed })
+
+        //https://github.com/monero-ecosystem/monero-javascript/issues/60
+        const monero_wallet = Window.wallets[this.wallet_name]
+        monero_wallet.getTx(txHash).then(tx => {
+            let transfer = tx.getOutgoingTransfer() //note: singular vs plural in received handler
+            saveTransaction(this.wallet_name, txHash, transfer)
+        });
     }
     onBalancesChanged(newBalance, newUnlockedBalance) {
         console.log("changed balance", newBalance)
@@ -46,5 +59,15 @@ export class WalletListener extends monerojs.MoneroWalletListener {
     }
 
 }
-
-
+//mandatory: wallet_name, tx_hash optional: data .... our transaction model is: transfer plus tx_hash
+export function saveTransaction(wallet_name, tx_hash, data) {
+    return db.transactions.add({
+        wallet_name,
+        tx_hash,
+        ...data
+    }).catch(() => {
+        if (data) {
+            db.transactions.update([wallet_name, tx_hash], data)
+        }
+    })
+}
