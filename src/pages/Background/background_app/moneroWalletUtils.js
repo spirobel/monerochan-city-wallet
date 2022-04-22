@@ -33,7 +33,9 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         const monero_wallet = Window.wallets[this.wallet_name]
         monero_wallet.getTx(txHash).then(tx => {
             let transfers = tx.getIncomingTransfers()
-            saveTransaction(this.wallet_name, txHash, transfers[0].state)
+            if (transfers) {
+                saveTransaction(this.wallet_name, txHash, transfers[0].state)
+            }
         });
     }
     onOutputSpent(output) {
