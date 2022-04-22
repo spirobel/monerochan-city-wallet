@@ -33,7 +33,7 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         const monero_wallet = Window.wallets[this.wallet_name]
         monero_wallet.getTx(txHash).then(tx => {
             let transfers = tx.getIncomingTransfers()
-            saveTransaction(this.wallet_name, txHash, transfers[0])
+            saveTransaction(this.wallet_name, txHash, transfers[0].state)
         });
     }
     onOutputSpent(output) {
@@ -47,7 +47,7 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         const monero_wallet = Window.wallets[this.wallet_name]
         monero_wallet.getTx(txHash).then(tx => {
             let transfer = tx.getOutgoingTransfer() //note: singular vs plural in received handler
-            saveTransaction(this.wallet_name, txHash, transfer)
+            saveTransaction(this.wallet_name, txHash, transfer.state)
         });
     }
     onBalancesChanged(newBalance, newUnlockedBalance) {
