@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, InputNumber, Form } from 'antd';
+import { Button, Input, InputNumber, Form, Card, Space } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import { RightCircleOutlined } from '@ant-design/icons';
@@ -13,7 +13,7 @@ export function Send() {
         () => db.wallet_config.orderBy('main_wallet').last()
     );
     const draft_transaction = useLiveQuery(
-        () => { if (!mainWallet) { return undefined } db.draft_transaction.where({ wallet_name: mainWallet?.name }).first() },
+        () => { if (!mainWallet) { return undefined } return db.draft_transaction.where({ wallet_name: mainWallet.name }).first() },
         [mainWallet]
     );
 
@@ -69,13 +69,26 @@ export function Send() {
             {draft_transaction &&
                 <Card title="New transaction" style={{ width: 300 }}>
                     <p>amount: {draft_transaction.amount}</p>
-                    <p>destination: {draft_transaction.destination}</p>
-                    <Button type="primary" danger onClick={() => db.draft_transaction.delete(mainWallet.name)}>
-                        discard transaction
-                    </Button>
-                    <Button type="primary" onClick={() => dispatchBackground(relayTransaction(mainWallet.name))}>
-                        send <RightCircleOutlined />
-                    </Button>
+                    <p>destination:
+
+                        <span style={{
+                            width: "250px",
+                            wordWrap: "break-word",
+                            display: "inline-block"
+                        }}>
+                            {draft_transaction.address}
+                        </span>
+
+                    </p>
+                    <p>fee: {draft_transaction.fee / 1000000000000}</p>
+                    <Space>
+                        <Button type="primary" danger onClick={() => db.draft_transaction.delete(mainWallet.name)}>
+                            discard transaction
+                        </Button>
+                        <Button type="primary" onClick={() => dispatchBackground(relayTransaction(mainWallet.name))}>
+                            send <RightCircleOutlined />
+                        </Button>
+                    </Space>
                 </Card>
             }
         </>
