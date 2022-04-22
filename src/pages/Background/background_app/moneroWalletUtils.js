@@ -51,6 +51,10 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         });
     }
     onBalancesChanged(newBalance, newUnlockedBalance) {
+        db.wallet_config.update(this.wallet_name, {
+            newBalance: monerojs.BigInteger.parse(newBalance).toString(),
+            newUnlockedBalance: monerojs.BigInteger.parse(newUnlockedBalance).toString(),
+        })
         console.log("changed balance", newBalance)
 
     }
