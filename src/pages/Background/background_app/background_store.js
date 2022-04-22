@@ -4,7 +4,6 @@ import createSagaMiddleware from '@redux-saga/core';
 import { all, call, spawn } from 'redux-saga/effects'
 import saveWalletSaga from './saveWalletSaga';
 import syncWalletSyncSaga from './syncWalletSyncSaga';
-import saveTransactionSaga from './saveTransactionSaga';
 import createAddressSaga from './createAddressSaga';
 import createTransactionSaga from './createTransactionSaga';
 import relayTransactionSaga from './relayTransactionSaga';
@@ -14,7 +13,6 @@ function* rootSaga() {
         relayTransactionSaga,
         createTransactionSaga,
         createAddressSaga,
-        saveTransactionSaga,
         saveWalletSaga,
         syncWalletSyncSaga
     ];
