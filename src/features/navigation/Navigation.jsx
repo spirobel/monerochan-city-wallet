@@ -60,8 +60,8 @@ function Navigation() {
             <LeftCircleOutlined />send
           </Button>
           <Button shape="round" onClick={() => dispatch(navigate("home"))}>
-            {mainWallet?.newBalance && mainWallet.newBalance / 1000000000000}
-            {!mainWallet?.newBalance && "-.--"}
+            {mainWallet?.newBalance && (mainWallet.newBalance / 1000000000000).toString() + " "}
+            {!mainWallet?.newBalance && "-.-- "}
             <Monero />
 
           </Button>
