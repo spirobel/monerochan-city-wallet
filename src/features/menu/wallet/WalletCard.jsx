@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { navigate, } from '../../navigation/navigation-slice'
 import { Card, Tooltip, Button } from 'antd';
@@ -17,6 +17,7 @@ export function WalletCard(props) {
     const mainWallet = useLiveQuery(
         () => db.wallet_config.orderBy('main_wallet').last()
     );
+    const [showSeedphrase, setShowSeedphrase] = useState(false);
 
     return (
         <Card
@@ -45,6 +46,16 @@ export function WalletCard(props) {
             <Button onClick={() => dispatch(navigate({ destination: "transactions", wallet_name: mainWallet?.name }))}>
                 show transactions
             </Button>
+            <Button onClick={() => setShowSeedphrase(!showSeedphrase)}>
+                {!showSeedphrase && "show"} {showSeedphrase && "hide"}  seedphrase
+            </Button>
+            {showSeedphrase && <span style={{
+                width: "500px",
+                wordWrap: "break-word",
+                display: "inline-block"
+            }}>
+                {mainWallet.mnemonic}
+            </span>}
         </Card>
     );
 }
