@@ -1,6 +1,7 @@
 import React from 'react';
 import { navigate, selectCurrentPage } from './navigation-slice'
 import { useDispatch, useSelector } from 'react-redux';
+import { useLiveQuery } from 'dexie-react-hooks';
 import Home from '../home/Home';
 import Menu from '../menu/Menu';
 import CreateWallet from '../create-wallet/CreateWallet'
@@ -12,6 +13,7 @@ import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
 import ImportWallet from '../import-wallet/ImportWallet';
 import { Receive } from '../receive/Receive';
 import { Send } from '../send/Send';
+import { db } from '../../utils/dexie_db';
 
 const Monero = props => <Icon component={MoneroLogo} {...props} />;
 const { Header, Content } = Layout;
@@ -19,6 +21,9 @@ const { Header, Content } = Layout;
 function Navigation() {
   let currentPage = useSelector(selectCurrentPage)
   const dispatch = useDispatch()
+  const mainWallet = useLiveQuery(
+    () => db.wallet_config.orderBy('main_wallet').last()
+  );
   let main = <div></div>;
   switch (currentPage.destination) {
     case 'home':
@@ -55,7 +60,9 @@ function Navigation() {
             <LeftCircleOutlined />send
           </Button>
           <Button shape="round" onClick={() => dispatch(navigate("home"))}>
-            1.19 <Monero />
+            {mainWallet?.newBalance && mainWallet.newBalance / 1000000000000}
+            {!mainWallet?.newBalance && "-.--"}
+            <Monero />
 
           </Button>
           <Button onClick={() => dispatch(navigate("receive"))}>
