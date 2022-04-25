@@ -41,14 +41,19 @@ export function WalletCard(props) {
             <Meta
                 avatar={<img src={wallet} style={{ width: "150px" }} />}
                 title={mainWallet?.name}
-                description="This is your currently selected wallet"
+                description={
+                    <space style={{ display: "flex" }}>
+                        <Button onClick={() => dispatch(navigate({ destination: "transactions", wallet_name: mainWallet?.name }))}>
+                            show transactions
+                        </Button>
+                        <Button onClick={() => setShowSeedphrase(!showSeedphrase)}>
+                            {!showSeedphrase && "show"} {showSeedphrase && "hide"}  seedphrase
+                        </Button>
+                    </space>
+                }
             />
-            <Button onClick={() => dispatch(navigate({ destination: "transactions", wallet_name: mainWallet?.name }))}>
-                show transactions
-            </Button>
-            <Button onClick={() => setShowSeedphrase(!showSeedphrase)}>
-                {!showSeedphrase && "show"} {showSeedphrase && "hide"}  seedphrase
-            </Button>
+
+
             {showSeedphrase && <span style={{
                 width: "500px",
                 wordWrap: "break-word",
