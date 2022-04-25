@@ -78,7 +78,10 @@ export default function ListWallets() {
                                     <WalletTwoTone />
                                 </Tooltip>}
                             title={item.name}
-                            style={{ marginBottom: '1em' }}>Card content
+                            style={{ marginBottom: '1em' }}>
+                            <Button onClick={() => dispatch(navigate({ destination: "transactions", wallet_name: item.name }))}>
+                                show transactions
+                            </Button>
                             <br />
                             {item.sync && <Text type="success">wallet sync turned on</Text>}
 
