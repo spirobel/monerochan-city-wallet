@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Input, InputNumber, Form, Card, Space } from 'antd';
+import React, { useState } from 'react';
+import { Button, Input, InputNumber, Form, Card, Space, Spin } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import { RightCircleOutlined } from '@ant-design/icons';
@@ -13,7 +13,12 @@ export function Send() {
         () => db.wallet_config.orderBy('main_wallet').last()
     );
     const draft_transaction = useLiveQuery(
-        () => { if (!mainWallet) { return undefined } return db.draft_transaction.where({ wallet_name: mainWallet.name }).first() },
+        async () => {
+            if (!mainWallet) { return undefined }
+            let draft = await db.draft_transaction.where({ wallet_name: mainWallet.name }).first()
+            setLoading(false)
+            return draft
+        },
         [mainWallet]
     );
 
@@ -21,51 +26,56 @@ export function Send() {
     const onFinish = (values) => {
         dispatchBackground(createTransaction(mainWallet.name, values.address, values.amount))
         form.resetFields();
+        setLoading(true)
     };
-
+    const [loading, setLoading] = useState(false)
 
     return (
         <>
-            <Form
-                name="save-wallet"
-                form={form}
-                onFinish={onFinish}
-                autoComplete="off"
-                initialValues={{ amount: 1 }}
-            >
-                <Form.Item
-                    label="address"
-                    name="address"
-                    rules={[{ required: true, message: 'Please input the desitionation address!' },]}
+            {loading && <Spin size="large" tip="Creating transaction..." />
+            }
+            {(!loading && !draft_transaction) &&
+                <Form
+                    name="save-wallet"
+                    form={form}
+                    onFinish={onFinish}
+                    autoComplete="off"
+                    initialValues={{ amount: 1 }}
                 >
-                    <Input />
-                </Form.Item>
+                    <Form.Item
+                        label="address"
+                        name="address"
+                        rules={[{ required: true, message: 'Please input the desitionation address!' },]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                <Form.Item
-                    label="amount"
-                    name="amount"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input the transaction amount!',
-                        },
-                    ]}
-                >
-                    <InputNumber
-                        style={{
-                            width: 100,
-                        }}
-                        min="0"
-                        step="0.1"
-                        stringMode
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Create transaction
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <Form.Item
+                        label="amount"
+                        name="amount"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input the transaction amount!',
+                            },
+                        ]}
+                    >
+                        <InputNumber
+                            style={{
+                                width: 100,
+                            }}
+                            min="0"
+                            step="0.1"
+                            stringMode
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            Create transaction
+                        </Button>
+                    </Form.Item>
+                </Form>
+            }
             {draft_transaction &&
                 <Card title="New transaction" style={{ width: 300 }}>
                     <p>amount: {draft_transaction.amount}</p>
