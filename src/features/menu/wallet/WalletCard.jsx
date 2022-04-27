@@ -55,7 +55,7 @@ export function WalletCard(props) {
 
 
             {showSeedphrase && <span style={{
-                width: "500px",
+                width: "450px",
                 wordWrap: "break-word",
                 display: "inline-block"
             }}>
