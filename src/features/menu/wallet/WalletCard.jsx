@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { navigate, } from '../../navigation/navigation-slice'
-import { Card, Tooltip, Button } from 'antd';
+import { Card, Tooltip, Button, Space } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, ImportOutlined } from '@ant-design/icons'
 import styles from './WalletCard.module.scss'
 import classNames from 'classnames';
@@ -42,14 +42,14 @@ export function WalletCard(props) {
                 avatar={<img src={wallet} style={{ width: "150px" }} />}
                 title={mainWallet?.name}
                 description={
-                    <space style={{ display: "flex" }}>
+                    <Space style={{ display: "flex" }}>
                         <Button onClick={() => dispatch(navigate({ destination: "transactions", wallet_name: mainWallet?.name }))}>
                             show transactions
                         </Button>
                         <Button onClick={() => setShowSeedphrase(!showSeedphrase)}>
                             {!showSeedphrase && "show"} {showSeedphrase && "hide"}  seedphrase
                         </Button>
-                    </space>
+                    </Space>
                 }
             />
 
