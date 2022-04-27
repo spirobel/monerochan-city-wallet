@@ -52,17 +52,25 @@ export default function TransactionsTable(props) {
                     return (
                         <Card
                             title={<h4>{transaction?.tx?.state?.isIncoming ? "received money " : "spent money "}</h4>}
-                            extra={transaction?.tx?.state?.isIncoming &&
+                            extra={transaction?.tx?.state?.isIncoming ?
                                 <Tooltip title="incoming">
                                     <WalletOutlined style={{
                                         color: "#52c41a",
                                     }} />
-                                </Tooltip>}>
+                                </Tooltip> :
+                                <Tooltip title="outgoing">
+                                    <WalletOutlined style={{
+                                        color: "#f5222d",
+                                    }} />
+                                </Tooltip>
+
+                            }>
                             <Descriptions bordered>
                                 <Descriptions.Item label="amount">
                                     {Object.assign(new monerojs.BigInteger(), transaction.amount) / 1000000000000} <Monero />
                                 </Descriptions.Item>
-                                <Descriptions.Item label="destination">{transaction.address}</Descriptions.Item>
+                                <Descriptions.Item label="destination">{transaction?.tx?.state?.isIncoming ?
+                                    transaction.address : transaction.destinations[0].state.address}</Descriptions.Item>
                                 <Descriptions.Item label="fee">{Object.assign(new monerojs.BigInteger(), transaction.tx.state.fee) / 1000000000000}</Descriptions.Item>
                                 <Descriptions.Item label="tx hash">{transaction.tx_hash}</Descriptions.Item>
                             </Descriptions>
