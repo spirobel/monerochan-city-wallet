@@ -12,6 +12,9 @@ db.wallet_config.toArray().then(wallets => wallets.forEach(wallet => store.dispa
 //forwarding the actions dispatched with dispatchBackground.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action) {
+        if (sender.tab?.id) {
+            message.action.senderTabId = sender.tab.id;
+        }
         store.dispatch(message.action)
     }
 });
