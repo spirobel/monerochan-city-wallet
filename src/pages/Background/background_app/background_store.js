@@ -7,9 +7,13 @@ import syncWalletSyncSaga from './syncWalletSyncSaga';
 import createAddressSaga from './createAddressSaga';
 import createTransactionSaga from './createTransactionSaga';
 import relayTransactionSaga from './relayTransactionSaga';
+import buyClubCardSaga from './buyClubCardSaga';
+import openPromptSaga from './openPromptSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
+        buyClubCardSaga,
+        openPromptSaga,
         relayTransactionSaga,
         createTransactionSaga,
         createAddressSaga,
