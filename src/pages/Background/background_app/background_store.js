@@ -9,6 +9,7 @@ import createTransactionSaga from './createTransactionSaga';
 import relayTransactionSaga from './relayTransactionSaga';
 import buyClubCardSaga from './buyClubCardSaga';
 import openPromptSaga from './openPromptSaga';
+import promptReducer from './promptSlice'
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
@@ -39,9 +40,7 @@ const doCreateStore = () => {
     const saga = createSagaMiddleware();
     const store = configureStore({
         reducer: {
-            default: state => {
-                return null;
-            },
+            prompt: promptReducer
         },
         middleware: [saga],
         devTools: false,
