@@ -11,7 +11,7 @@ function* workCreateAddress(action) {
         account_index: subaddress.getAccountIndex(),
         subaddress_index: subaddress.getIndex()
     }))
-    put(saveWallet(action.payload.wallet_name))
+    yield put(saveWallet(action.payload.wallet_name))
 
 }
 
