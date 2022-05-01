@@ -25,7 +25,6 @@ function makeSureTabisActive(windowId) {
 }
 
 function* workOpenPrompt(action) {
-    //todo rewrite this with tabs.query(url)
     let tabId = yield select(state => state.prompt.tabId)
     const opentab = yield call(getPopup, tabId)
     if (!opentab) {
