@@ -1,4 +1,4 @@
-import { call, takeEvery, put } from 'redux-saga/effects'
+import { call, takeLeading, put } from 'redux-saga/effects'
 import { db } from "../../../utils/dexie_db"
 import { saveTransaction } from './moneroWalletUtils'
 import { saveWallet } from './saveWalletSaga'
@@ -9,7 +9,7 @@ function* workBuyClubCard(action) {
 }
 
 function* buyClubCardSaga() {
-    yield takeEvery(BUY_CLUBCARD, workBuyClubCard)
+    yield takeLeading(BUY_CLUBCARD, workBuyClubCard)
 }
 
 
