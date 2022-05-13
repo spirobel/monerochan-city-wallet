@@ -15,7 +15,7 @@ function PopupNavigation() {
   let main = <div></div>;
   switch (currentPage.destination) {
     case 'home':
-      main = <MoneroSpinner size="large" tip="loading..." />
+      main = <MoneroSpinner />
       break;
   }
 
