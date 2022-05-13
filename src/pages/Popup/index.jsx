@@ -1,5 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from '../../app/App'
+import PopupApp from '../../app/PopupApp';
 
-render(<App />, window.document.querySelector('#app-container'));
+render(<PopupApp />, window.document.querySelector('#app-container'));
