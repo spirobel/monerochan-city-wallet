@@ -6,7 +6,12 @@ function MoneroSpinner(props) {
 
     return (
         <>
-            <Spin indicator={<MoneroIcon className={"ant-spin-dot-spin"} />} {...props} />
+            <Spin indicator={<MoneroIcon className={"ant-spin-dot-spin"} />} {...props} style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+            }} />
 
         </>
     );
