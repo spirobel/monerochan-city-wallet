@@ -6,6 +6,13 @@ import { openPrompt } from './openPromptSaga'
 
 function* workBuyClubCard(action) {
     yield put(openPrompt())
+    const clubcard = yield call(() => {
+        return fetch(action.payload.url + '/buy')
+            .then(response =>
+                response.json().then(json => ({ json, response }))
+            )
+    })
+    console.log(clubcard)
 }
 
 function* buyClubCardSaga() {
