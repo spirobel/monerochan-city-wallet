@@ -1,2 +1,24 @@
 @import '~antd/dist/antd.less';
 @import './variables.less';
+.Clubcard {
+    box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05),
+      0 1px 3px 0 rgba(34, 33, 81, 0.15); 
+    width: 150px;
+  }
+  .Clubcard  .ant-card-body {
+    padding: 15px;
+    height: 107px;
+    text-align: center;
+  }
+  .Clubcard  .ant-card-cover  .ant-image-img {
+    height: 173px;
+  }
+  .ClubcardGrid {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    grid-template-columns: repeat(auto-fit, 150px);
+    justify-content: center;
+    padding-top: 50vh;
+    margin-top: -194px;
+  }
