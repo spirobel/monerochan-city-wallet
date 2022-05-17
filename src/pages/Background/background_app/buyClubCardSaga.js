@@ -10,7 +10,12 @@ function* workBuyClubCard(action) {
         return fetch(action.payload.url + '/buy')
             .then(response =>
                 response.json().then(json => ({ json, response }))
-            )
+            ).then(({ json, response }) => {
+                if (!response.ok) {
+                    return Promise.reject(json)
+                }
+                return json
+            })
     })
     console.log(clubcard)
 }
