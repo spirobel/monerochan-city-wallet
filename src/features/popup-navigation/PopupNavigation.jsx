@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import MoneroSpinner from '../monero-spinner/MoneroSpinner';
+import { BuyClubcard } from '../buy-clubcards/BuyClubcard';
 
 
 function PopupNavigation() {
@@ -16,6 +17,9 @@ function PopupNavigation() {
   switch (currentPage.destination) {
     case 'home':
       main = <MoneroSpinner />
+      break;
+    case 'buyClubcardPrompt':
+      main = <BuyClubcard clubcard={currentPage.clubcard} />
       break;
   }
 
