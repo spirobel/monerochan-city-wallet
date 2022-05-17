@@ -35,6 +35,7 @@ function* workBuyClubCard(action) {
     console.log("amount", Object.assign(new monerojs.BigInteger(), tx_config.state.destinations[0].state.amount) / 1000000000000)
     clubcard.address = tx_config.state.destinations[0].state.address;
     clubcard.amount = Object.assign(new monerojs.BigInteger(), tx_config.state.destinations[0].state.amount) / 1000000000000
+    clubcard.url = action.payload.url
     yield call(() => db.clubcards.put(clubcard))
     //dispatchPrompt(navigate_popup())
     dispatchPrompt(navigate_popup({ destination: "buyClubcardPrompt", clubcard }))
