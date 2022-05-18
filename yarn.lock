@@ -2741,12 +2741,12 @@ async@2.3.0:
   dependencies:
     lodash "^4.14.0"
 
-async@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
-  integrity sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==
+async@2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.6.4.tgz#706b7ff6084664cd7eae713f6f965433b5504221"
+  integrity sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==
   dependencies:
-    lodash "^4.17.10"
+    lodash "^4.17.14"
 
 async@^2.6.1, async@^2.6.2:
   version "2.6.3"
@@ -6690,13 +6690,13 @@ moment@^2.24.0, moment@^2.25.3:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
-monero-javascript@^0.6.4:
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/monero-javascript/-/monero-javascript-0.6.4.tgz#e141ed7970aae0d58f1b11be5bf49e3d56845606"
-  integrity sha512-svBDjVJozEOQGxqysgSDcn1tggwS3tiEeJgGEOvzhsKasW97S/C+wBhNxGW+0J14bPVbqnhJIB0fFhcpKyn4zw==
+monero-javascript@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/monero-javascript/-/monero-javascript-0.7.0.tgz#df3754f9dc2e678d36486030a401f5550851d611"
+  integrity sha512-ToKxMOUZurFgV1LGn31Jf6knIDoWuCZ4huFbfr6IsDaryh9gow+yujANb4l9ROaYlf5t0/lHKWNmR/dL7EODMg==
   dependencies:
     ajv "^6.12.6"
-    async "2.6.1"
+    async "2.6.4"
     crypto-js "^4.0.0"
     html5-fs "0.1.1"
     net "^1.0.2"
