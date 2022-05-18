@@ -14,8 +14,7 @@ function* workCreateClubcardTransaction(action) {
     const clubcard = yield call(() => db.clubcards.where({ url: action.payload.clubcard_url }).first())
     const tx_config = yield call([monero_wallet, "parsePaymentUri"], String(clubcard.payment_uri))
 
-
-
+    tx_config.setAccountIndex(0)
 
     const transaction = yield call([monero_wallet, "createTx"], tx_config)
 
