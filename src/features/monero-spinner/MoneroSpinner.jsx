@@ -9,8 +9,8 @@ function MoneroSpinner(props) {
             <Spin indicator={<MoneroIcon className={"ant-spin-dot-spin"} style={{
                 fontSize: "106px",
                 transform: "rotate(45deg)",
-                animation: "antRotate 2.2s infinite linear"
-
+                animation: "antRotate 2.2s infinite linear",
+                marginBottom: "19px"
             }} />} {...props} style={{
                 position: "absolute",
                 top: "50%",
