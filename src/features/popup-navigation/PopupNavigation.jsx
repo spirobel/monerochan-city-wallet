@@ -5,6 +5,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import MoneroSpinner from '../monero-spinner/MoneroSpinner';
 import { BuyClubcard } from '../buy-clubcards/BuyClubcard';
+import { BoughtClubcardSuccess } from '../buy-clubcards/BoughtClubcardSuccess';
 
 
 function PopupNavigation() {
@@ -20,6 +21,12 @@ function PopupNavigation() {
       break;
     case 'buyClubcardPrompt':
       main = <BuyClubcard clubcard={currentPage.clubcard} />
+      break;
+    case 'sendingMoneySpinner':
+      main = <MoneroSpinner tip="Sending money..." />
+      break;
+    case 'sendingMoneySpinner':
+      main = <BoughtClubcardSuccess clubcard={currentPage.clubcard} />
       break;
   }
 

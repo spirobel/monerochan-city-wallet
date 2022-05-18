@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Input, InputNumber, Form, Card, Space, Spin, Image, Alert } from 'antd';
+import { Button, Card, Space, Image, Alert } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import { RightCircleOutlined } from '@ant-design/icons';
 import { dispatchBackground } from '../../utils/dispatchBackground';
-import { createTransaction } from '../../pages/Background/background_app/createTransactionSaga';
-import { relayTransaction } from '../../pages/Background/background_app/relayTransactionSaga';
+import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import MoneroSpinner from '../monero-spinner/MoneroSpinner';
+import { createClubcardTransaction } from '../../pages/Background/background_app/createClubcardTransactionSaga';
+import relayClubcardTransactionSaga from '../../pages/Background/background_app/relayClubcardTransactionSaga';
+import { navigate_popup } from '../popup-navigation/popup-navigation-slice';
 const { Meta } = Card;
 
 
@@ -17,29 +20,28 @@ export function BuyClubcard(props) {
     const draft_transaction = useLiveQuery(
         async () => {
             if (!mainWallet) { return undefined }
-            let draft = await db.draft_transaction.where({ wallet_name: mainWallet.name }).first()
+            let draft = await db.draft_transaction.where({ wallet_name: mainWallet.name, clubcard_url: props.clubcard.url }).first()
             setLoading(false)
             return draft
         },
-        [mainWallet]
+        [mainWallet, props.clubcard.url]
     );
+    const dispatch = useDispatch()
 
-    const [form] = Form.useForm();
-    const onFinish = (values) => {
-        dispatchBackground(createTransaction(mainWallet.name, values.address, values.amount))
-        form.resetFields();
-        setLoading(true)
-    };
     const [loading, setLoading] = useState(false)
 
     return (
         <>
-            {loading && <Spin size="large" tip="Creating transaction..." />
+            {loading && <MoneroSpinner tip="Creating transaction..." />
             }
             {(!loading && !draft_transaction) &&
                 <>
                     <div className={classNames("ClubcardGrid")}>
                         <Card
+                            onClick={() => {
+                                dispatchBackground(createClubcardTransaction(props.clubcard.url))
+                                setLoading(true)
+                            }}
                             className={classNames("Clubcard")}
                             hoverable
                             bordered
@@ -84,8 +86,11 @@ export function BuyClubcard(props) {
                         <Button type="primary" danger onClick={() => db.draft_transaction.delete(mainWallet.name)}>
                             discard transaction
                         </Button>
-                        <Button type="primary" onClick={() => dispatchBackground(relayTransaction(mainWallet.name))}>
-                            send <RightCircleOutlined />
+                        <Button type="primary" onClick={() => {
+                            dispatchBackground(relayClubcardTransactionSaga(props.clubcard.url))
+                            dispatch(navigate_popup("sendingMoneySpinner"))
+                        }}>
+                            pay <RightCircleOutlined />
                         </Button>
                     </Space>
                 </Card>
