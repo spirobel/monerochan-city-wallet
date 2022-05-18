@@ -6,11 +6,14 @@ function* workSaveWallet(action) {
     const monero_wallet = Window.wallets[action.payload.name]
     const wallet_config = yield call(() => db.wallet_config.where({ name: action.payload.name }).first())
     let mnemonic = wallet_config.mnemonic
+    let restoreHeight = wallet_config.restoreHeight
     const data = yield call([monero_wallet, "getData"])
     if (!mnemonic) {
         mnemonic = yield call([monero_wallet, "getMnemonic"])
     }
-
+    if (!restoreHeight) {
+        restoreHeight = yield call([monero_wallet, "getSyncHeight"])
+    }
     let last_wallet_save_slot = wallet_config.last_wallet_save_slot || "wallet_data2";
     let this_wallet_save_slot = last_wallet_save_slot === "wallet_data1" ? "wallet_data2" : "wallet_data1";
 
@@ -18,7 +21,8 @@ function* workSaveWallet(action) {
     yield call(() => db.wallet_config.update(action.payload.name, {
         last_wallet_save_slot: this_wallet_save_slot,
         last_saved_time: Date.now(),
-        mnemonic
+        mnemonic,
+        restoreHeight
     }))
 
 }

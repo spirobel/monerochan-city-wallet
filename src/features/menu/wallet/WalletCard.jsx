@@ -59,7 +59,9 @@ export function WalletCard(props) {
                 wordWrap: "break-word",
                 display: "inline-block"
             }}>
-                {mainWallet.mnemonic}
+                restore height: {mainWallet.restoreHeight}
+                <br></br>
+                seedphrase: {mainWallet.mnemonic}
             </span>}
         </Card>
     );
