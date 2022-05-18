@@ -49,6 +49,9 @@ function* workRelayClubcardTransaction(action) {
                 return json.success
             })
     })
+    if (registration_worked) {
+        dispatchPrompt(navigate_popup({ destination: "boughtClubcardSuccess", clubcard }))
+    }
 }
 
 function* relayClubcardTransactionSaga() {

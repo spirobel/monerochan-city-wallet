@@ -25,7 +25,7 @@ function PopupNavigation() {
     case 'sendingMoneySpinner':
       main = <MoneroSpinner tip="Sending money..." />
       break;
-    case 'sendingMoneySpinner':
+    case 'boughtClubcardSuccess':
       main = <BoughtClubcardSuccess clubcard={currentPage.clubcard} />
       break;
   }
