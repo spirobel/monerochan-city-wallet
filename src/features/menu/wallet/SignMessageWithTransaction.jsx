@@ -37,7 +37,6 @@ export default function SignMessageWithTransaction(props) {
                 form={form}
                 onFinish={onFinish}
                 autoComplete="off"
-                initialValues={{ amount: 1 }}
             >
                 <Form.Item
                     label="message to sign: "
