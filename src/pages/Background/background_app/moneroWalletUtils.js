@@ -1,5 +1,6 @@
 import { db } from "../../../utils/dexie_db"
 import { saveWallet } from "./saveWalletSaga";
+import { registerClubcardWithTransaction } from "./registerClubcardWithTransactionSaga";
 
 export const monerojs = require("monero-javascript");
 
@@ -50,6 +51,8 @@ export class WalletListener extends monerojs.MoneroWalletListener {
         monero_wallet.getTx(txHash).then(tx => {
             let transfer = tx.getOutgoingTransfer() //note: singular vs plural in received handler
             saveTransaction(this.wallet_name, txHash, transfer.state)
+            console.log("spent", txHash, transfer.getDestinations()[0].getAddress())
+            Window.background_store.dispatch(registerClubcardWithTransaction(txHash, transfer.getDestinations()[0].getAddress()))
         });
     }
     onBalancesChanged(newBalance, newUnlockedBalance) {

@@ -19,40 +19,8 @@ function* workRelayClubcardTransaction(action) {
     yield put(saveWallet(main_wallet.name))
     yield call(saveTransaction, main_wallet.name, tx_hash)
     yield call(() => db.draft_transaction.delete(transaction.id))
-    const register_message = yield call(() => {
-        return fetch(action.payload.clubcard_url + '/register')
-            .then(response =>
-                response.json().then(json => ({ json, response }))
-            ).then(({ json, response }) => {
-                if (!response.ok) {
-                    return Promise.reject(json)
-                }
-                return json.register_message
-            })
-    })
-    const tx_proof = yield call([monero_wallet, "getTxProof"], tx_hash, clubcard.address, String(register_message))
-    const registration_worked = yield call(() => {
-        return fetch(action.payload.clubcard_url + '/register', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({ txHash: tx_hash, signature: tx_proof })
-        })
-            .then(response =>
-                response.json().then(json => ({ json, response }))
-            ).then(({ json, response }) => {
-                if (!response.ok) {
-                    return Promise.reject(json)
-                }
-                return json.success
-            })
-    })
-    if (registration_worked) {
-        yield call(() => db.clubcards.update(clubcard.id, { bought: 1 }))
-        dispatchPrompt(navigate_popup({ destination: "boughtClubcardSuccess", clubcard }))
-    }
+    yield call(() => db.clubcards.update(clubcard.id, { tx_hash }))
+
 }
 
 function* relayClubcardTransactionSaga() {

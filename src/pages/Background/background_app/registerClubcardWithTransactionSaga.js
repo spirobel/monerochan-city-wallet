@@ -12,7 +12,7 @@ function* workRegisterClubcardWithTransaction(action) {
         main_wallet = yield call(() => db.wallet_config.orderBy('main_wallet').last())
         monero_wallet = Window.wallets[main_wallet.name]
     }
-    let clubcard = yield call(() => db.clubcards.where({ url: action.payload.clubcard_url }).first())
+    let clubcard = yield call(() => db.clubcards.where({ tx_hash: action.payload.tx_hash }).first())
     if (!clubcard) {
         clubcard = yield call(() => {
             return fetch(action.payload.url + '/buy')
@@ -30,9 +30,12 @@ function* workRegisterClubcardWithTransaction(action) {
         clubcard.url = action.payload.clubcard_url
         yield call(() => db.clubcards.put(clubcard))
     }
-
+    let url = action.payload.clubcard_url
+    if (!action.payload.clubcard_url) {
+        url = clubcard.url
+    }
     const register_message = yield call(() => {
-        return fetch(action.payload.clubcard_url + '/register')
+        return fetch(url + '/register')
             .then(response =>
                 response.json().then(json => ({ json, response }))
             ).then(({ json, response }) => {
@@ -44,7 +47,7 @@ function* workRegisterClubcardWithTransaction(action) {
     })
     const tx_proof = yield call([monero_wallet, "getTxProof"], action.payload.tx_hash, action.payload.address, String(register_message))
     const registration_worked = yield call(() => {
-        return fetch(action.payload.clubcard_url + '/register', {
+        return fetch(url + '/register', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
