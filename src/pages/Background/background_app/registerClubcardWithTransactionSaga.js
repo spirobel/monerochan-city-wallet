@@ -45,7 +45,18 @@ function* workRegisterClubcardWithTransaction(action) {
                 return json.register_message
             })
     })
-    const tx_proof = yield call([monero_wallet, "getTxProof"], action.payload.tx_hash, action.payload.address, String(register_message))
+    const tx_proof = yield call(
+
+        async () => {
+            try {
+                let txProof = await monero_wallet.getTxProof(action.payload.tx_hash, action.payload.address, String(register_message))
+                return txProof
+            } catch (e) {
+                console.log("error when creating tx_proof", e)
+            }
+
+        }
+    )
     const registration_worked = yield call(() => {
         return fetch(url + '/register', {
             method: 'POST',
@@ -66,6 +77,10 @@ function* workRegisterClubcardWithTransaction(action) {
     })
     if (registration_worked) {
         yield call(() => db.clubcards.update(clubcard.id, { bought: 1 }))
+        yield call(() => db.wallet_config.update(main_wallet.name, {
+            card_list: main_wallet.card_list.unshift(url)
+        })
+        )
         dispatchPrompt(navigate_popup({ destination: "boughtClubcardSuccess", clubcard }))
     }
 }
