@@ -92,10 +92,10 @@ export function Send() {
                     </p>
                     <p>fee: {draft_transaction.fee / 1000000000000}</p>
                     <Space>
-                        <Button type="primary" danger onClick={() => db.draft_transaction.delete(mainWallet.name)}>
+                        <Button type="primary" danger onClick={() => db.draft_transaction.delete(draft_transaction.id)}>
                             discard transaction
                         </Button>
-                        <Button type="primary" onClick={() => dispatchBackground(relayTransaction(mainWallet.name))}>
+                        <Button type="primary" onClick={() => dispatchBackground(relayTransaction(draft_transaction.id))}>
                             send <RightCircleOutlined />
                         </Button>
                     </Space>
