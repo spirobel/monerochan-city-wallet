@@ -7,6 +7,9 @@ import styles from './Clubcards.module.scss'
 import classNames from 'classnames';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
+import { dispatchBackground } from '../../utils/dispatchBackground';
+import { openClubcard } from '../../pages/Background/background_app/openClubcardSaga';
+
 
 const { Meta } = Card;
 
@@ -37,7 +40,12 @@ export function Clubcard(props) {
         <div ref={setNodeRef} style={style} {...attributes} {...listeners} >
             <Card
                 onClick={() => {
-                    console.log("card clicked")
+                    if (new URL(location.href).pathname === '/newtab.html') {
+                        location.href = clubcard.url
+                    } else {
+                        dispatchBackground(openClubcard(clubcard.url))
+                    }
+
                 }}
                 className={classNames("Clubcard")}
                 hoverable
@@ -53,6 +61,7 @@ export function Clubcard(props) {
                     description={clubcard?.description}
                 />
             </Card>
+
         </div>
     );
 }

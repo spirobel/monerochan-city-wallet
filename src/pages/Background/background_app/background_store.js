@@ -14,9 +14,11 @@ import createClubcardTransactionSaga from './createClubcardTransactionSaga';
 import relayClubcardTransactionSaga from './relayClubcardTransactionSaga';
 import signMessageWithTransactionSaga from './signMessageWithTransactionSaga';
 import registerClubcardWithTransactionSaga from './registerClubcardWithTransactionSaga';
+import openClubcardSaga from './openClubcardSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
+        openClubcardSaga,
         registerClubcardWithTransactionSaga,
         signMessageWithTransactionSaga,
         relayClubcardTransactionSaga,
