@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import MoneroSpinner from '../monero-spinner/MoneroSpinner';
 import { createClubcardTransaction } from '../../pages/Background/background_app/createClubcardTransactionSaga';
-import relayClubcardTransactionSaga from '../../pages/Background/background_app/relayClubcardTransactionSaga';
+import { relayClubcardTransaction } from '../../pages/Background/background_app/relayClubcardTransactionSaga';
 import { navigate_popup } from '../popup-navigation/popup-navigation-slice';
 import MoneroIcon from '../monero-spinner/MoneroIcon';
 const { Meta } = Card;
@@ -94,7 +94,7 @@ export function BuyClubcard(props) {
                                 discard transaction
                             </Button>
                             <Button type="primary" onClick={() => {
-                                dispatchBackground(relayClubcardTransactionSaga(props.clubcard.url))
+                                dispatchBackground(relayClubcardTransaction(props.clubcard.url))
                                 dispatch(navigate_popup("sendingMoneySpinner"))
                             }}>
                                 pay <RightCircleOutlined />

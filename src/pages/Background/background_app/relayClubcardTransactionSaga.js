@@ -60,7 +60,7 @@ function* relayClubcardTransactionSaga() {
 }
 
 
-export function relayTransaction(clubcard_url) {
+export function relayClubcardTransaction(clubcard_url) {
     return {
         type: RELAY_CLUBCARD_TRANSACTION,
         payload: {
