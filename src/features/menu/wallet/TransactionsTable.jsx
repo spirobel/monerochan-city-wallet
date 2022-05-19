@@ -1,9 +1,9 @@
 import React from 'react';
-import { List, Button, Card, Tooltip, Descriptions } from 'antd';
-import Icon, { LeftCircleOutlined, WalletOutlined } from '@ant-design/icons';
+import { List, Button, Card, Tooltip, Descriptions, Space } from 'antd';
+import Icon, { LeftCircleOutlined, WalletOutlined, EditOutlined } from '@ant-design/icons';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDispatch } from 'react-redux';
-import { go_back } from '../../navigation/navigation-slice'
+import { go_back, navigate } from '../../navigation/navigation-slice'
 import { db } from '../../../utils/dexie_db';
 import MoneroLogo from '../../navigation/logo'
 //import { monerojs } from '../../../pages/Background/background_app/moneroWalletUtils'
@@ -58,11 +58,25 @@ export default function TransactionsTable(props) {
                                         color: "#52c41a",
                                     }} />
                                 </Tooltip> :
-                                <Tooltip title="outgoing">
-                                    <WalletOutlined style={{
-                                        color: "#f5222d",
-                                    }} />
-                                </Tooltip>
+                                <Space>
+                                    <Tooltip title="sign message with transaction">
+                                        <EditOutlined key="setting" onClick={() => dispatch(navigate({
+                                            destination: "signMessageWithTransaction",
+                                            transaction: {
+                                                tx_hash: transaction.tx_hash,
+                                                destination: transaction.destinations[0].state.address
+                                            }
+                                        }
+                                        ))} />
+                                    </Tooltip>
+
+                                    <Tooltip title="outgoing">
+                                        <WalletOutlined style={{
+                                            color: "#f5222d",
+                                        }} />
+                                    </Tooltip>
+                                </Space>
+
 
                             }>
                             <Descriptions bordered>

@@ -7,6 +7,7 @@ import Menu from '../menu/Menu';
 import CreateWallet from '../create-wallet/CreateWallet'
 import ListWallets from '../list-wallets/ListWallets'
 import TransactionsTable from '../menu/wallet/TransactionsTable'
+import SignMessageWithTransaction from '../menu/wallet/SignMessageWithTransaction'
 import { Button, Layout, Space, } from 'antd';
 import MoneroLogo from './logo.jsx'
 import Icon, { LeftCircleOutlined, MenuOutlined } from '@ant-design/icons';
@@ -46,6 +47,9 @@ function Navigation() {
       break;
     case 'transactions':
       main = <TransactionsTable wallet_name={currentPage.wallet_name} />
+      break;
+    case 'signMessageWithTransaction':
+      main = <SignMessageWithTransaction transaction={currentPage.transaction} />
       break;
     case 'menu':
       main = <Menu />
