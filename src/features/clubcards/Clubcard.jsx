@@ -20,7 +20,6 @@ export function Clubcard(props) {
         },
         [props.id]
     );
-    console.log("clubcard In CLUBCARD", clubcard)
     const {
         attributes,
         listeners,
@@ -37,6 +36,9 @@ export function Clubcard(props) {
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners} >
             <Card
+                onClick={() => {
+                    console.log("card clicked")
+                }}
                 className={classNames("Clubcard")}
                 hoverable
                 bordered

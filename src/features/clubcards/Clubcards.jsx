@@ -22,7 +22,12 @@ import styles from './Clubcards.module.scss';
 export function Clubcards() {
     const [items, setItems] = useState([]);
     const sensors = useSensors(
-        useSensor(PointerSensor),
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                delay: 250,
+                tolerance: 20,
+            },
+        }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })
@@ -42,18 +47,18 @@ export function Clubcards() {
                     card_list.push(item.url);
                 });
 
-                console.log("card_list_keys", card_list)
+
 
                 await db.wallet_config.update(main_wallet.name, {
                     card_list
                 })
             }
-            console.log("card_list", card_list)
+
             setItems(() => card_list)
         },
         [main_wallet, setItems]
     );
-    console.log("bought clubcards", clubcards)
+
 
     return (
         <DndContext
