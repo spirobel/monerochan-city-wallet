@@ -16,11 +16,11 @@ function* workRelayClubcardTransaction(action) {
     const transaction = yield call(() => db.draft_transaction.where({ wallet_name: main_wallet.name, clubcard_url: action.payload.clubcard_url }).first())
 
     const tx_hash = yield call([monero_wallet, "relayTx"], transaction.metadata)
-    yield put(saveWallet(action.payload.wallet_name))
-    yield call(saveTransaction, action.payload.wallet_name, tx_hash)
+    yield put(saveWallet(main_wallet.name))
+    yield call(saveTransaction, main_wallet.name, tx_hash)
     yield call(() => db.draft_transaction.delete(transaction.id))
     const register_message = yield call(() => {
-        return fetch(action.payload.url + '/register')
+        return fetch(action.payload.clubcard_url + '/register')
             .then(response =>
                 response.json().then(json => ({ json, response }))
             ).then(({ json, response }) => {
@@ -32,7 +32,7 @@ function* workRelayClubcardTransaction(action) {
     })
     const tx_proof = yield call([monero_wallet, "getTxProof"], tx_hash, clubcard.address, String(register_message))
     const registration_worked = yield call(() => {
-        return fetch(action.payload.url + '/register', {
+        return fetch(action.payload.clubcard_url + '/register', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
