@@ -13,11 +13,20 @@ function* workCreateClubcardTransaction(action) {
 
     const clubcard = yield call(() => db.clubcards.where({ url: action.payload.clubcard_url }).first())
     const tx_config = yield call([monero_wallet, "parsePaymentUri"], String(clubcard.payment_uri))
+    const amount = Object.assign(new monerojs.BigInteger(), tx_config.state.destinations[0].state.amount).toString()
 
-    tx_config.setAccountIndex(0)
+    const integratedAddress = yield call([monero_wallet, "decodeIntegratedAddress"],
+        tx_config.state.destinations[0].state.address)
+    console.log("integratedAddress.getStandardAddress()", integratedAddress.getStandardAddress())
 
-    const transaction = yield call([monero_wallet, "createTx"], tx_config)
-
+    const transaction = yield call([monero_wallet, "createTx"], {
+        accountIndex: 0,
+        address: integratedAddress.getStandardAddress(),
+        // paymentId: integratedAddress.getPaymentId(), drop paymentId for now because this issue needs to be fixed in monero-javascript
+        amount,
+        relay: false
+    })
+    console.log("transaction", transaction)
     yield call(() => db.draft_transaction.put({
         fee: monerojs.BigInteger.parse(transaction.getFee()).toString(),
         address: tx_config.state.destinations[0].state.address,
