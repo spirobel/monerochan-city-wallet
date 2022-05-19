@@ -10,6 +10,7 @@ import MoneroSpinner from '../monero-spinner/MoneroSpinner';
 import { createClubcardTransaction } from '../../pages/Background/background_app/createClubcardTransactionSaga';
 import relayClubcardTransactionSaga from '../../pages/Background/background_app/relayClubcardTransactionSaga';
 import { navigate_popup } from '../popup-navigation/popup-navigation-slice';
+import MoneroIcon from '../monero-spinner/MoneroIcon';
 const { Meta } = Card;
 
 
@@ -68,32 +69,50 @@ export function BuyClubcard(props) {
                 </>
             }
             {draft_transaction &&
-                <Card title="New transaction" style={{ width: 300 }}>
-                    <p>amount: {draft_transaction.amount}</p>
-                    <p>destination:
+                <>
+                    <Card title="New transaction" style={{
+                        width: 300,
+                        width: "300px",
+                        top: "78px",
+                        marginLeft: "47px"
+                    }}>
+                        <p>amount: {draft_transaction.amount} <MoneroIcon /> </p>
+                        <p>url:
 
-                        <span style={{
-                            width: "250px",
-                            wordWrap: "break-word",
-                            display: "inline-block"
-                        }}>
-                            {draft_transaction.address}
-                        </span>
+                            <span style={{
+                                width: "250px",
+                                wordWrap: "break-word",
+                                display: "inline-block"
+                            }}>
+                                {props.clubcard.url}
+                            </span>
 
-                    </p>
-                    <p>fee: {draft_transaction.fee / 1000000000000}</p>
-                    <Space>
-                        <Button type="primary" danger onClick={() => db.draft_transaction.delete(mainWallet.name)}>
-                            discard transaction
-                        </Button>
-                        <Button type="primary" onClick={() => {
-                            dispatchBackground(relayClubcardTransactionSaga(props.clubcard.url))
-                            dispatch(navigate_popup("sendingMoneySpinner"))
-                        }}>
-                            pay <RightCircleOutlined />
-                        </Button>
-                    </Space>
-                </Card>
+                        </p>
+                        <p>fee: {draft_transaction.fee / 1000000000000}</p>
+                        <Space>
+                            <Button type="primary" danger onClick={() => db.draft_transaction.delete(draft_transaction.id)}>
+                                discard transaction
+                            </Button>
+                            <Button type="primary" onClick={() => {
+                                dispatchBackground(relayClubcardTransactionSaga(props.clubcard.url))
+                                dispatch(navigate_popup("sendingMoneySpinner"))
+                            }}>
+                                pay <RightCircleOutlined />
+                            </Button>
+                        </Space>
+                    </Card>
+                    <Alert
+                        message={<span style={{ color: "rgba(0, 0, 0, 0.45)" }}>make sure the url matches your expectation</span>}
+                        description={<><span>it is the place you will gain access to. </span><br></br><span> if there are misspellings, discard the transaction!</span></>}
+                        type="warning"
+                        showIcon
+                        style={{
+                            marginLeft: "19px",
+                            marginRight: "26px",
+                            top: "104px"
+                        }}
+                    />
+                </>
             }
         </>
 
