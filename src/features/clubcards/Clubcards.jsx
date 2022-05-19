@@ -14,6 +14,9 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { Clubcard } from './Clubcard';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '../../utils/dexie_db'
+
 import styles from './Clubcards.module.scss';
 
 export function Clubcards() {
@@ -24,6 +27,12 @@ export function Clubcards() {
             coordinateGetter: sortableKeyboardCoordinates,
         })
     );
+    const clubcards = useLiveQuery(
+        async () => {
+            return await db.clubcards.where({ bought: 1 }).toArray()
+        },
+    );
+    console.log("bought clubcards", clubcards)
 
     return (
         <DndContext

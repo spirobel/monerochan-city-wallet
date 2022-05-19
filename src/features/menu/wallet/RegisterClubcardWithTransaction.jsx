@@ -15,6 +15,7 @@ const Monero = props => <Icon component={MoneroLogo} {...props} />;
 
 
 export default function RegisterClubcardWithTransaction(props) {
+    const [loading, setLoading] = useState(false)
 
     const [form] = Form.useForm();
     const onFinish = (values) => {
