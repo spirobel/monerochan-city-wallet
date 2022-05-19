@@ -50,6 +50,7 @@ function* workRelayClubcardTransaction(action) {
             })
     })
     if (registration_worked) {
+        () => db.clubcards.update(clubcard.id, { bought: true })
         dispatchPrompt(navigate_popup({ destination: "boughtClubcardSuccess", clubcard }))
     }
 }
