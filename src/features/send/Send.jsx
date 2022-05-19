@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Input, InputNumber, Form, Card, Space, Spin } from 'antd';
+import { Button, Input, InputNumber, Form, Card, Space } from 'antd';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../utils/dexie_db';
 import { RightCircleOutlined } from '@ant-design/icons';
 import { dispatchBackground } from '../../utils/dispatchBackground';
 import { createTransaction } from '../../pages/Background/background_app/createTransactionSaga';
 import { relayTransaction } from '../../pages/Background/background_app/relayTransactionSaga';
+import MoneroSpinner from '../monero-spinner/MoneroSpinner';
 
 
 export function Send() {
@@ -15,7 +16,7 @@ export function Send() {
     const draft_transaction = useLiveQuery(
         async () => {
             if (!mainWallet) { return undefined }
-            let draft = await db.draft_transaction.where({ wallet_name: mainWallet.name }).first()
+            let draft = await db.draft_transaction.where({ wallet_name: mainWallet.name, from_wallet_send_dialog: true }).first()
             setLoading(false)
             return draft
         },
@@ -32,7 +33,7 @@ export function Send() {
 
     return (
         <>
-            {loading && <Spin size="large" tip="Creating transaction..." />
+            {loading && <MoneroSpinner size="large" tip="Creating transaction..." />
             }
             {(!loading && !draft_transaction) &&
                 <Form

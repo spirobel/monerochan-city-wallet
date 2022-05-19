@@ -3,7 +3,13 @@ import { db } from "../../../utils/dexie_db"
 import { monerojs } from "./moneroWalletUtils"
 
 function* workCreateTransaction(action) {
-    const monero_wallet = Window.wallets[action.payload.wallet_name]
+    let main_wallet = yield call(() => db.wallet_config.orderBy('main_wallet').last())
+    let monero_wallet = Window.wallets[main_wallet.name]
+    while (!monero_wallet) {
+        delay(300)
+        main_wallet = yield call(() => db.wallet_config.orderBy('main_wallet').last())
+        monero_wallet = Window.wallets[main_wallet.name]
+    }
     const transaction = yield call([monero_wallet, "createTx"], {
         accountIndex: 0,
         address: action.payload.address,
@@ -15,8 +21,9 @@ function* workCreateTransaction(action) {
         fee: monerojs.BigInteger.parse(transaction.getFee()).toString(),
         address: action.payload.address,
         amount: action.payload.amount,
-        wallet_name: action.payload.wallet_name,
-        metadata: transaction.getMetadata()
+        wallet_name: main_wallet.name,
+        metadata: transaction.getMetadata(),
+        from_wallet_send_dialog: true,
     }))
 
 }
