@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Button, Card, Tooltip, Descriptions, Space } from 'antd';
-import Icon, { LeftCircleOutlined, WalletOutlined, EditOutlined } from '@ant-design/icons';
+import Icon, { LeftCircleOutlined, WalletOutlined, EditOutlined, LoginOutlined } from '@ant-design/icons';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDispatch } from 'react-redux';
 import { go_back, navigate } from '../../navigation/navigation-slice'
@@ -69,7 +69,16 @@ export default function TransactionsTable(props) {
                                         }
                                         ))} />
                                     </Tooltip>
-
+                                    <Tooltip title="manually register clubcard with transaction">
+                                        <LoginOutlined key="setting" onClick={() => dispatch(navigate({
+                                            destination: "registerClubcardWithTransaction",
+                                            transaction: {
+                                                tx_hash: transaction.tx_hash,
+                                                destination: transaction.destinations[0].state.address
+                                            }
+                                        }
+                                        ))} />
+                                    </Tooltip>
                                     <Tooltip title="outgoing">
                                         <WalletOutlined style={{
                                             color: "#f5222d",

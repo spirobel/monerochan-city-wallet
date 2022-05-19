@@ -13,9 +13,11 @@ import promptReducer from './promptSlice'
 import createClubcardTransactionSaga from './createClubcardTransactionSaga';
 import relayClubcardTransactionSaga from './relayClubcardTransactionSaga';
 import signMessageWithTransactionSaga from './signMessageWithTransactionSaga';
+import registerClubcardWithTransactionSaga from './registerClubcardWithTransactionSaga';
 //https://redux-saga.js.org/docs/advanced/RootSaga/
 function* rootSaga() {
     const sagas = [
+        registerClubcardWithTransactionSaga,
         signMessageWithTransactionSaga,
         relayClubcardTransactionSaga,
         createClubcardTransactionSaga,

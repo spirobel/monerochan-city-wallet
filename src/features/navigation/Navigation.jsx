@@ -15,6 +15,7 @@ import ImportWallet from '../import-wallet/ImportWallet';
 import { Receive } from '../receive/Receive';
 import { Send } from '../send/Send';
 import { db } from '../../utils/dexie_db';
+import RegisterClubcardWithTransaction from '../menu/wallet/RegisterClubcardWithTransaction';
 
 const Monero = props => <Icon component={MoneroLogo} {...props} />;
 const { Header, Content } = Layout;
@@ -50,6 +51,9 @@ function Navigation() {
       break;
     case 'signMessageWithTransaction':
       main = <SignMessageWithTransaction transaction={currentPage.transaction} />
+      break;
+    case 'registerClubcardWithTransaction':
+      main = <RegisterClubcardWithTransaction transaction={currentPage.transaction} />
       break;
     case 'menu':
       main = <Menu />
