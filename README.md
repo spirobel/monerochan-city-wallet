@@ -1,6 +1,11 @@
 
 # Monero Browser Wallet PoC
 
+Monero browser wallet PoC: https://github.com/spirobel/monerochan-city-wallet
+
+Monero clubcards backend demo: https://github.com/spirobel/monero-clubcards
+
+demo video: https://www.youtube.com/watch?v=4DLcsQ45zoE
 
 ## Installing and Running
 
